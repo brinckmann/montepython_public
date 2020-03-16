@@ -10,6 +10,7 @@ import pandas as pd
 import scipy.linalg as la
 import montepython.io_mp as io_mp
 import os
+import functools
 from montepython.likelihood_class import Likelihood_sn
 
 T_CMB = 2.7255     #CMB temperature
@@ -54,7 +55,7 @@ class BK14(Likelihood_sn):
         self.map_fields_used = [maptype for i, maptype in enumerate(map_fields) if map_names[i] in map_names_used]
         
         nmaps = len(map_names_used)
-        ncrossmaps = nmaps*(nmaps+1)/2
+        ncrossmaps = nmaps*(nmaps+1)//2
         nbins = int(self.nbins)
 
         ## This constructs a different flattening of triangular matrices.
@@ -78,7 +79,7 @@ class BK14(Likelihood_sn):
         indices, mask = self.GetIndicesAndMask(self.bin_window_in_order.split())
         for k in range(nbins):
             windowfile = os.path.join(self.data_directory, self.bin_window_files.replace('%u',str(k+1)))
-            tmp = pd.read_table(windowfile,comment='#',sep=' ',header=None, index_col=0).as_matrix()
+            tmp = pd.read_table(windowfile,comment='#',sep=' ',header=None, index_col=0).values
             # Apply mask
             tmp = tmp[:,mask]
             # Permute columns and store this bin
@@ -96,7 +97,7 @@ class BK14(Likelihood_sn):
             supermask += list(mask)
         supermask = np.array(supermask)
         
-        tmp = pd.read_table(os.path.join(self.data_directory, self.covmat_fiducial),comment='#',sep=' ',header=None,skipinitialspace=True).as_matrix()
+        tmp = pd.read_table(os.path.join(self.data_directory, self.covmat_fiducial),comment='#',sep=' ',header=None,skipinitialspace=True).values
         # Apply mask:
         tmp = tmp[:,supermask][supermask,:]
         print('Covmat read with shape',tmp.shape)
@@ -141,7 +142,7 @@ class BK14(Likelihood_sn):
         # Get mask and indices
         indices, mask = self.GetIndicesAndMask(crossmaps.split())
         # Read matrix in packed format
-        A = pd.read_table(os.path.join(self.data_directory, filename),comment='#',sep=' ',header=None, index_col=0).as_matrix()
+        A = pd.read_table(os.path.join(self.data_directory, filename),comment='#',sep=' ',header=None, index_col=0).values
         # Apply mask
         A = A[:,mask]
 
@@ -239,7 +240,7 @@ class BK14(Likelihood_sn):
             D, U = la.eigh(B)
             gD = np.sign(D-1.)*np.sqrt(2.*np.maximum(0.,D-np.log(D)-1.))
             # Final transformation. U*gD = U*gD[None,:] done by broadcasting. Collect chain matrix multiplication using reduce.
-            M = reduce(np.dot, [CfHalf,U*gD[None,:],U.T,CfHalf.T])
+            M = functools.reduce(np.dot, [CfHalf,U*gD[None,:],U.T,CfHalf.T])
             #M = np.dot(np.dot(np.dot(CfHalf,U*gD[None,:]),U.T),Cfhalf.T)
             return M
 
@@ -257,7 +258,7 @@ class BK14(Likelihood_sn):
         map_names = self.map_names_used.split()
         map_fields = self.map_fields_used
         nmaps = len(map_names)
-        ncrossmaps = nmaps*(nmaps+1)/2
+        ncrossmaps = nmaps*(nmaps+1)//2
         nbins = int(self.nbins)
         # Initialise Cls matrix to zero:
         Cls = np.zeros((nbins,nmaps,nmaps))

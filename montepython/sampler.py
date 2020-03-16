@@ -103,7 +103,7 @@ def read_args_from_chain(data, chain):
     success = 0
     # Test if last chain entry contains a step or a commented line
     while not success:
-        if chain_file.tail(1)[0].split('\t')[0] == '#':
+        if chain_file.tail(1)[0].decode(encoding='utf-8').split('\t')[0] == '#':
             commented_line += 1
         else:
             success += 1
@@ -115,7 +115,7 @@ def read_args_from_chain(data, chain):
         #data.mcmc_parameters[elem]['last_accepted'] = float(
         #    chain_file.tail(1)[0].split('\t')[i])
         data.mcmc_parameters[elem]['last_accepted'] = float(
-            chain_file.tail(commented_line+1)[commented_line].split('\t')[i])
+            chain_file.tail(commented_line+1)[commented_line].decode(encoding='utf-8').split('\t')[i])
         i += 1
 
 
@@ -150,13 +150,13 @@ def read_args_from_bestfit(data, bestfit):
             data.mcmc_parameters[elem]['last_accepted'] = \
                 bestfit_values[bestfit_names.index(elem)] / \
                 data.mcmc_parameters[elem]['scale']
-            sys.stdout.write('from best-fit file : ', elem, ' = ')
+            print('from best-fit file : ', elem, ' = ')
             print(bestfit_values[bestfit_names.index(elem)] / \
                 data.mcmc_parameters[elem]['scale'])
         else:
             data.mcmc_parameters[elem]['last_accepted'] = \
                 data.mcmc_parameters[elem]['initial'][0]
-            sys.stdout.write('from input file    : ', elem, ' = ')
+            print('from input file    : ', elem, ' = ')
             print(data.mcmc_parameters[elem]['initial'][0])
 
 
@@ -339,7 +339,7 @@ def get_covariance_matrix(cosmo, data, command_line):
 
     # Final print out, the actually used covariance matrix
     if not command_line.silent and not command_line.quiet:
-        sys.stdout.write('\nDeduced starting covariance matrix:\n')
+        print('\nDeduced starting covariance matrix:\n')
         print(parameter_names)
         print(matrix)
 

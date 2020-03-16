@@ -351,7 +351,7 @@ def get_tex_name(name, number=1):
     for elem in tex_greek:
         if elem in name:
             position = name.find(elem)
-            name = name[:position]+"""\\"""+name[position:]
+            name = name[:position]+"""\\"""+name[position:position+len(elem)]+"{}"+name[position+len(elem):]
     if name.find('_') != -1:
         temp_name = name.split('_')[0]+'_{'
         for i in range(1, len(name.split('_'))):
@@ -480,7 +480,7 @@ class File(io.FileIO):
             byte_block = min(1024, bytes_in_file-total_bytes_scanned)
             self.seek(-(byte_block+total_bytes_scanned), 2)
             total_bytes_scanned += byte_block
-            lines_found += self.read(1024).count('\n')
+            lines_found += self.read(1024).decode(encoding='utf-8').count('\n')
         self.seek(-total_bytes_scanned, 2)
         line_list = list(self.readlines())
         return line_list[-lines_2find:]
