@@ -575,6 +575,20 @@ def create_parser():
             file, and pass the value with flag -f <value>. A warning
             may still appear, but you can safely disregard it.
             <++>
+        <**>--print-errors<**> : bool
+            <++>Keep track of failed steps. <++>
+             It will write three files:
+             a) error_chains.log: values of cosmo varied parameters + error code.
+             The error code is: 0 for shooting error, 1 for gradient
+             instability for scalar field perturbations, 2 for gradient
+             instability for metric tensor perturbations, 3 for ghost instability
+             for scalar field perturbations, 4 for ghost instability for metric
+             tensor perturbations, 10 for Isnan v_X and 11 for an error setting
+             the initial conditions for early_smg for an adiabatic mode. You
+             can add your own modifying get_error_code in io_mp.py.
+             b) error_msg.log: cosmo.pars dictionary + error message
+             c) error_params.log: cosmo.pars dictionary
+            <++>
 
         For MultiNest, PolyChord and Cosmo Hammer arguments, see
         :mod:`MultiNest`, :mod:`PolyChord` and :mod:`cosmo_hammer`.
@@ -808,6 +822,10 @@ def create_parser():
                            dest='display_each_chi2', action='store_true')
     # -- parallel chains without MPI (OPTIONAL)
     runparser.add_argument('--parallel-chains', help=helpdict['parallel-chains'],
+                           action='store_true')
+
+    # -- write error log (OPTIONAL)
+    runparser.add_argument('--print-errors', help=helpdict['print-errors'],
                            action='store_true')
 
     ###############

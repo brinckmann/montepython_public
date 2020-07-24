@@ -733,6 +733,8 @@ def compute_lkl(cosmo, data):
                 else:
                     cosmo.compute(["szpowerspectrum"])
             except CosmoComputationError as failure_message:
+                if data.command_line.print_errors:
+                    io_mp.print_error_log(cosmo, data, failure_message)
                 sys.stderr.write(str(failure_message)+'\n')
                 sys.stderr.flush()
                 return data.boundary_loglike
@@ -752,6 +754,8 @@ def compute_lkl(cosmo, data):
                 #print('cosmo params')
                 #print(data.cosmo_arguments)
                 #print(data.cosmo_arguments['tau_reio'])
+                if data.command_line.print_errors:
+                    io_mp.print_error_log(cosmo, data, failure_message)
                 sys.stderr.write(str(failure_message)+'\n')
                 sys.stderr.flush()
                 return data.boundary_loglike

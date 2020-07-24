@@ -229,6 +229,54 @@ def print_vector(out, N, loglkl, data):
                          data.mcmc_parameters[elem]['last_accepted'])
         out[j].write('\n')
 
+def print_error_log(cosmo, data, failure_message):
+    folder = os.path.dirname(data.out_name)
+    fname = os.path.join(folder, 'error_chains.log')
+    with open(fname, 'a+') as out:
+        for elem in data.get_mcmc_parameters(['varying']):
+            out.write('%.6e\t' %
+                         data.mcmc_parameters[elem]['current'])
+        out.write(str(int(get_error_code(failure_message))))
+        out.write('\n')
+
+    fname = os.path.join(folder, 'error_params.log')
+    with open(fname, 'a+') as out:
+        out.write(str(cosmo.pars) + '\n')
+
+    fname = os.path.join(folder, 'error_msg.log')
+    with open(fname, 'a+') as out:
+        out.write(str(cosmo.pars) + '\n')
+        out.write(str(failure_message) + '\n')
+        out.write('\n')
+        out.write(78*'#' + '\n')
+        out.write(78*'#' + '\n')
+        out.write('\n')
+
+def get_error_code(failure_message):
+    """
+    Based on github.com/miguelzuma/montepython_zuma/io_mp.py
+    print_error function
+    """
+    error_msg = str(failure_message)
+    err_code = -1 # -1 is for unmarked error
+
+    # errors in background are 1-10, perturbations 10-99...
+    if 'Shooting failed' in error_msg:
+      err_code = 0
+    elif all(x in error_msg for x in ['Gradient', 'scalar']):
+      err_code = 1
+    elif all(x in error_msg for x in ['Gradient', 'tensor']):
+      err_code = 2
+    elif all(x in error_msg for x in ['Ghost', 'scalar']):
+      err_code = 3
+    elif all(x in error_msg for x in ['Ghost', 'tensor']):
+      err_code = 4
+    elif 'Isnan v_X' in error_msg:
+      err_code = 10
+    elif all(x in error_msg for x in ['early_smg', 'adiabatic']):
+      err_code = 11
+
+    return err_code
 
 def refresh_file(data):
     """
