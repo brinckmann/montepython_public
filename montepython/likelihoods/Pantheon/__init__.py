@@ -56,6 +56,34 @@ class Pantheon(Likelihood_sn):
         # Reading light-curve parameters from self.data_file (lcparam_full_long.txt)
         self.light_curve_params = self.read_light_curve_parameters()
 
+        # (JR) the following steps can be computed in the initialisation step
+        #      as they do not depend on the point in parameter-space
+        #   -> likelihood evaluation is 30% faster
+        # Compute the covariance matrix
+        # The module numexpr is used for doing quickly the long multiplication
+        # of arrays (factor of 3 improvements over numpy). It is used as a
+        # replacement of blas routines cblas_dcopy and cblas_daxpy
+        # For numexpr to work, we need (seems like a bug, but anyway) to create
+        # local variables holding the arrays. This cost no time (it is a simple
+        # pointer assignment)
+        C00 = self.C00
+        covm = ne.evaluate("C00")
+
+        sn = self.light_curve_params
+
+        # Update the diagonal terms of the covariance matrix with the
+        # statistical error
+        covm += np.diag(sn.dmb**2)
+
+        # Whiten the residuals, in two steps
+        # 1) Compute the Cholesky decomposition of the covariance matrix, in
+        # place. This is a time expensive (0.015 seconds) part -> (JR) do it 
+        # in init step, then! needed to be done for each point in JLA likelihood, 
+        # but here alpha and beta are no nuisance params anymore and the covmat does
+        # not change  
+        self.cov = la.cholesky(covm, lower=True, overwrite_a=True)
+        # step 2) depends on point in parameter space -> done in loglkl calculation
+
     def loglkl(self, cosmo, data):
         """
         Compute negative log-likelihood (eq.15 Betoule et al. 2014)
@@ -78,16 +106,6 @@ class Pantheon(Likelihood_sn):
         M = (data.mcmc_parameters['M']['current'] *
              data.mcmc_parameters['M']['scale'])
 
-        # Compute the covariance matrix
-        # The module numexpr is used for doing quickly the long multiplication
-        # of arrays (factor of 3 improvements over numpy). It is used as a
-        # replacement of blas routines cblas_dcopy and cblas_daxpy
-        # For numexpr to work, we need (seems like a bug, but anyway) to create
-        # local variables holding the arrays. This cost no time (it is a simple
-        # pointer assignment)
-        C00 = self.C00
-        cov = ne.evaluate("C00")
-
         # Compute the residuals (estimate of distance moduli - exact moduli)
         residuals = np.empty((size,))
         sn = self.light_curve_params
@@ -97,17 +115,8 @@ class Pantheon(Likelihood_sn):
         # Remove from the approximate moduli the one computed from CLASS
         residuals -= moduli
 
-        # Update the diagonal terms of the covariance matrix with the
-        # statistical error
-        cov += np.diag(sn.dmb**2)
-
-        # Whiten the residuals, in two steps
-        # 1) Compute the Cholesky decomposition of the covariance matrix, in
-        # place. This is a time expensive (0.015 seconds) part
-        cov = la.cholesky(cov, lower=True, overwrite_a=True)
-
         # 2) Solve the triangular system, also time expensive (0.02 seconds)
-        residuals = la.solve_triangular(cov, residuals, lower=True, check_finite=False)
+        residuals = la.solve_triangular(self.cov, residuals, lower=True, check_finite=False)
 
         # Finally, compute the chi2 as the sum of the squared residuals
         chi2 = (residuals**2).sum()
