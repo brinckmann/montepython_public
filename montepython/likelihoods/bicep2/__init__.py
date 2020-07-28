@@ -3,7 +3,9 @@ import math
 from montepython.likelihood_class import Likelihood
 import montepython.io_mp as io_mp
 # import the python package of the BICEP2 collaboration
-import bicep_util as bu
+import sys 
+sys.path.append('.')
+from . import bicep_util as bu
 
 
 class bicep2(Likelihood):

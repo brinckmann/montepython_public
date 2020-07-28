@@ -11,6 +11,7 @@ import scipy.linalg as la
 import montepython.io_mp as io_mp
 import os
 from montepython.likelihood_class import Likelihood_sn
+from functools import reduce # for python3 compatibility
 
 T_CMB = 2.7255     #CMB temperature
 h = 6.62606957e-34     #Planck's constant
@@ -54,7 +55,7 @@ class BK14(Likelihood_sn):
         self.map_fields_used = [maptype for i, maptype in enumerate(map_fields) if map_names[i] in map_names_used]
         
         nmaps = len(map_names_used)
-        ncrossmaps = nmaps*(nmaps+1)/2
+        ncrossmaps = nmaps*(nmaps+1)//2
         nbins = int(self.nbins)
 
         ## This constructs a different flattening of triangular matrices.
@@ -78,7 +79,9 @@ class BK14(Likelihood_sn):
         indices, mask = self.GetIndicesAndMask(self.bin_window_in_order.split())
         for k in range(nbins):
             windowfile = os.path.join(self.data_directory, self.bin_window_files.replace('%u',str(k+1)))
-            tmp = pd.read_table(windowfile,comment='#',sep=' ',header=None, index_col=0).as_matrix()
+            #tmp = pd.read_table(windowfile,comment='#',sep=' ',header=None, index_col=0).as_matrix()
+            # (JR) changed for python3 compatibility
+            tmp = pd.read_csv(windowfile,comment='#',sep=' ',header=None, index_col=0).values
             # Apply mask
             tmp = tmp[:,mask]
             # Permute columns and store this bin
@@ -96,7 +99,7 @@ class BK14(Likelihood_sn):
             supermask += list(mask)
         supermask = np.array(supermask)
         
-        tmp = pd.read_table(os.path.join(self.data_directory, self.covmat_fiducial),comment='#',sep=' ',header=None,skipinitialspace=True).as_matrix()
+        tmp = pd.read_csv(os.path.join(self.data_directory, self.covmat_fiducial),comment='#',sep=' ',header=None,skipinitialspace=True).values
         # Apply mask:
         tmp = tmp[:,supermask][supermask,:]
         print('Covmat read with shape',tmp.shape)
@@ -141,7 +144,8 @@ class BK14(Likelihood_sn):
         # Get mask and indices
         indices, mask = self.GetIndicesAndMask(crossmaps.split())
         # Read matrix in packed format
-        A = pd.read_table(os.path.join(self.data_directory, filename),comment='#',sep=' ',header=None, index_col=0).as_matrix()
+        A = pd.read_csv(os.path.join(self.data_directory, filename),comment='#',sep=' ',header=None, index_col=0).values
+
         # Apply mask
         A = A[:,mask]
 
@@ -257,7 +261,7 @@ class BK14(Likelihood_sn):
         map_names = self.map_names_used.split()
         map_fields = self.map_fields_used
         nmaps = len(map_names)
-        ncrossmaps = nmaps*(nmaps+1)/2
+        ncrossmaps = nmaps*(nmaps+1)//2
         nbins = int(self.nbins)
         # Initialise Cls matrix to zero:
         Cls = np.zeros((nbins,nmaps,nmaps))

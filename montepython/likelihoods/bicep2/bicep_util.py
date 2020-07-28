@@ -21,6 +21,11 @@ import os
 import numpy as np
 from numpy import linalg as LA
 from scipy.linalg import sqrtm
+import io_mp
+
+import sys
+if not sys.version_info[0] < 3:
+    from past.builtins import xrange
 
 #####################################################################
 def get_bpwf(exp='bicep1', root=''):
@@ -43,7 +48,7 @@ def get_bpwf(exp='bicep1', root=''):
         print('window functions must be in the root_directory/windows/')
         print('bicep2 window functions available at http://bicepkeck.org/bicep2_2014_release')
         print('bicep1 window functions available at bicep.rc.fas.harvard.edu/bicep1_3yr')
-        raise IOError()
+        raise OSError()
 
     # Initialize array so it's just like our Matlab version
     bpwf_Cs_l = np.zeros([ncol, 9, 6])
@@ -54,10 +59,10 @@ def get_bpwf(exp='bicep1', root=''):
         try:
             data = np.loadtxt(
                 os.path.join(root, window_file))
-        except IOError:
+        except OSError:
             print("Error reading  %s." % window_file +
                   "Make sure it is in root directory")
-            raise IOError()
+            raise OSError()
         bpwf_Cs_l[:, i, 0] = data[:, 1]   # TT -> TT
         bpwf_Cs_l[:, i, 1] = data[:, 2]   # TE -> TE
         bpwf_Cs_l[:, i, 2] = data[:, 3]   # EE -> EE
@@ -163,8 +168,8 @@ def read_data_products_bandpowers(exp='bicep1', root=""):
 
     values = list()
     try:
-        fin = file(os.path.join(root, file_in), 'r')
-    except IOerror:
+        fin = open(os.path.join(root, file_in), 'r')
+    except OSError:
         print("Error reading %s. Make sure it is in root directory" %file_in)
     for line in fin:
         if "#" not in line:
@@ -203,7 +208,7 @@ def read_M(exp='bicep1', root=""):
 
     try:
         data = np.loadtxt(os.path.join(root, file_in))
-    except IOError:
+    except OSError:
         print("Error reading %s. Make sure it is in working directory" %file_in)
 
     # HACK because file_in = "B2_3yr_bpcm_no-sysuncer_20140226.txt"  has different format
@@ -255,7 +260,7 @@ def vecp(mat):
 
     dim = mat.shape[0]
 
-    vec = np.zeros((dim*(dim+1)/2))
+    vec = np.zeros((dim*(dim+1)//2))
     counter = 0
     for iDiag in range(0,dim):
         vec[counter:counter+dim-iDiag] = np.diag(mat,iDiag)
@@ -345,7 +350,7 @@ def init(experiment, field, root=""):
 
     # initialize bandpower arrays
     nf = len(field)
-    dim = nf*(nf+1)/2
+    dim = nf*(nf+1)//2
     C_l_hat = np.zeros((9, nf, nf))
     C_fl = np.zeros((9, nf, nf))
     N_l = np.zeros((9, nf, nf))
