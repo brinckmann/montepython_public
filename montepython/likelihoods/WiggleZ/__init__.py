@@ -31,12 +31,12 @@ class WiggleZ(Likelihood):
 
         Likelihood.__init__(self, path, data, command_line)
 
-        # This obscure command essentially creates dynamically 4 likelihoods,
-        # respectively called WiggleZ_a, b, c and d, inheriting from
-        # Likelihood_mpk.
-        for elem in ['a', 'b', 'c', 'd']:
-            exec("WiggleZ_%s = type('WiggleZ_%s', (Likelihood_mpk, ), {})" % \
-                (elem, elem))
+        # (JR) initialise each element explicitly, for loop ini with exec()
+        # does not work with python3
+        WiggleZ_a = type('WiggleZ_a', (Likelihood_mpk, ), {})
+        WiggleZ_b = type('WiggleZ_b', (Likelihood_mpk, ), {})
+        WiggleZ_c = type('WiggleZ_c', (Likelihood_mpk, ), {})
+        WiggleZ_d = type('WiggleZ_d', (Likelihood_mpk, ), {})
 
         # Initialize one after the other the four independent redshift bins (note:
         # the order in the array self.redshift_bins_files) must be respected !
