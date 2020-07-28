@@ -69,7 +69,7 @@ class CFHTLens_correlation(Likelihood):
                 raise io_mp.LikelihoodError("File not found:\n %s"%window_file_path)
 
         # Read measurements of xi+ and xi-
-        nt = (self.nbin)*(self.nbin+1)/2
+        nt = (self.nbin)*(self.nbin+1)//2
         self.theta_bins = np.zeros(2*self.ntheta)
         self.xi_obs = np.zeros(self.ntheta*nt*2)
         xipm_file_path = os.path.join(
@@ -249,7 +249,7 @@ class CFHTLens_correlation(Likelihood):
         self.alpha = np.zeros((self.nlmax, self.nzmax), 'float64')
         if 'epsilon' in self.use_nuisance:
             self.E_th_nu = np.zeros((self.nlmax, self.nzmax), 'float64')
-        self.nbin_pairs = self.nbin*(self.nbin+1)/2
+        self.nbin_pairs = self.nbin*(self.nbin+1)//2
         self.Cl_integrand = np.zeros((self.nzmax, self.nbin_pairs), 'float64')
         self.Cl = np.zeros((self.nlmax, self.nbin_pairs), 'float64')
         if self.theoretical_error != 0:
@@ -430,6 +430,6 @@ class CFHTLens_correlation(Likelihood):
     # into 1D sums over one index with N(N+1)/2 possible values
     def one_dim_index(self,Bin1,Bin2):
         if Bin1 <= Bin2:
-            return Bin2+self.nbin*Bin1-(Bin1*(Bin1+1))/2
+            return Bin2+self.nbin*Bin1-(Bin1*(Bin1+1))//2
         else:
-            return Bin1+self.nbin*Bin2-(Bin2*(Bin2+1))/2
+            return Bin1+self.nbin*Bin2-(Bin2*(Bin2+1))//2

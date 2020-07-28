@@ -115,7 +115,7 @@ class kv450_cf_likelihood_public(Likelihood):
         #print(self.l.min(), self.l.max(), self.l.shape)
 
         self.nzbins = len(self.z_bins_min)
-        self.nzcorrs = self.nzbins * (self.nzbins + 1) / 2
+        self.nzcorrs = self.nzbins * (self.nzbins + 1) // 2
 
         # Create labels for loading of dn/dz-files:
         self.zbin_labels = []
@@ -449,8 +449,8 @@ class kv450_cf_likelihood_public(Likelihood):
         """
 
         # plus one for theta-column
-        data_xip = np.zeros((self.ntheta, self.nzcorrs + 1))
-        data_xim = np.zeros((self.ntheta, self.nzcorrs + 1))
+        data_xip = np.zeros(((self.ntheta), (self.nzcorrs) + 1))
+        data_xim = np.zeros(((self.ntheta), (self.nzcorrs) + 1))
         idx_corr = 0
         for zbin1 in xrange(self.nzbins):
             for zbin2 in xrange(zbin1, self.nzbins):
@@ -1310,6 +1310,6 @@ class kv450_cf_likelihood_public(Likelihood):
     # into 1D sums over one index with N(N+1)/2 possible values
     def one_dim_index(self, Bin1, Bin2):
         if Bin1 <= Bin2:
-            return Bin2 + self.nzbins * Bin1 - (Bin1 * (Bin1 + 1)) / 2
+            return Bin2 + self.nzbins * Bin1 - (Bin1 * (Bin1 + 1)) // 2
         else:
-            return Bin1 + self.nzbins * Bin2 - (Bin2 * (Bin2 + 1)) / 2
+            return Bin1 + self.nzbins * Bin2 - (Bin2 * (Bin2 + 1)) // 2

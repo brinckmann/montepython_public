@@ -37,6 +37,7 @@ class kids450_qe_likelihood_public(Likelihood):
         Likelihood.__init__(self, path, data, command_line)
 
         # Check if the data can be found
+        print("Trying to read %s", self.data_directory+'Resetting_bias/parameters_B_mode_model.dat')
         try:
             fname = os.path.join(self.data_directory, 'Resetting_bias/parameters_B_mode_model.dat')
             parser_mp.existing_file(fname)
@@ -62,7 +63,7 @@ class kids450_qe_likelihood_public(Likelihood):
         # number of z-bins
         self.nzbins = len(self.redshift_bins)
         # number of *unique* correlations between z-bins
-        self.nzcorrs = self.nzbins * (self.nzbins + 1) / 2
+        self.nzcorrs = self.nzbins * (self.nzbins + 1) // 2
 
         all_bands_EE_to_use = []
         all_bands_BB_to_use = []

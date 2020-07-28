@@ -94,7 +94,7 @@ class kids450_cf_likelihood_public(Likelihood):
         self.l = np.exp(self.dlnl * np.arange(self.nlmax))
 
         self.nzbins = len(self.z_bins_min)
-        self.nzcorrs = self.nzbins * (self.nzbins + 1) / 2
+        self.nzcorrs = self.nzbins * (self.nzbins + 1) // 2
 
         # Create labels for loading of dn/dz-files:
         self.zbin_labels = []
@@ -796,6 +796,6 @@ class kids450_cf_likelihood_public(Likelihood):
     # into 1D sums over one index with N(N+1)/2 possible values
     def one_dim_index(self, Bin1, Bin2):
         if Bin1 <= Bin2:
-            return Bin2 + self.nzbins * Bin1 - (Bin1 * (Bin1 + 1)) / 2
+            return Bin2 + self.nzbins * Bin1 - (Bin1 * (Bin1 + 1)) // 2
         else:
-            return Bin1 + self.nzbins * Bin2 - (Bin2 * (Bin2 + 1)) / 2
+            return Bin1 + self.nzbins * Bin2 - (Bin2 * (Bin2 + 1)) // 2
