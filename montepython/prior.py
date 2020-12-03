@@ -79,7 +79,7 @@ class Prior(object):
                 within_bounds = calue_within_prior_range(value)
 
             return value
-                
+
     def value_within_prior_range(self, value):
         """
         Check for a value being in or outside the prior range
@@ -112,5 +112,13 @@ class Prior(object):
         which should have been previously checked with :func:`is_bound`
 
         """
-        return (self.prior_range[0] + 
+        if self.prior_type == 'flat':
+            return (self.prior_range[0] +
                 value * (self.prior_range[1] - self.prior_range[0]))
+        # Gaussian prior adapted from https://github.com/JohannesBuchner/MultiNest/blob/master/src/priors.f90
+        if self.prior_type == 'gaussian':
+            if (value <= 1e-16) or ((1 - value) <= 1e-16):
+                gaussian_prior = -1e-32
+            else:
+                gaussian_prior = self.mu + self.sigma * np.sqrt(2) * erfcinv(2*(1-value))
+            return(gaussian_prior)

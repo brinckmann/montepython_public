@@ -115,10 +115,10 @@ def initialise(cosmo, data, command_line):
     # Check that all the priors are flat and that all the parameters are bound
     is_flat, is_bound = sampler.check_flat_bound_priors(
         data.mcmc_parameters, varying_param_names)
-    if not is_flat:
-        raise io_mp.ConfigurationError(
-            'Nested Sampling with MultiNest is only possible with flat ' +
-            'priors. Sorry!')
+    # if not is_flat:
+    #     raise io_mp.ConfigurationError(
+    #         'Nested Sampling with MultiNest is only possible with flat ' +
+    #         'priors. Sorry!')
     if not is_bound:
         raise io_mp.ConfigurationError(
             'Nested Sampling with MultiNest is only possible for bound ' +
@@ -169,7 +169,7 @@ def initialise(cosmo, data, command_line):
         if not param in NS_param_names:
             NS_param_names.append(param)
     data.NS_param_names = NS_param_names
-            
+
     # Caveat: multi-modal sampling OFF by default; if requested, INS disabled
     try:
         if data.NS_arguments['multimodal']:
@@ -273,7 +273,7 @@ def run(cosmo, data, command_line):
         for i, name in enumerate(derived_param_names):
             cube[ndim+i] = data.mcmc_parameters[name]['current']
         return lkl
-    
+
     #FK: recover name of base folder and remove entry from dict before passing it
     # on to MN:
     base_dir = data.NS_arguments['base_dir']
@@ -356,10 +356,10 @@ def from_NS_output_to_chains(folder):
             if line.strip()[0] == '#':
                 continue
 
-            # These lines allow MultiNest to deal with fixed nuisance parameters 
+            # These lines allow MultiNest to deal with fixed nuisance parameters
             sigma = float(line.split(',')[3].strip())
             if sigma == 0.0:
-                #If derived parameter, keep it, else discard it:                                 
+                #If derived parameter, keep it, else discard it:
                 paramtype = line.split(',')[5].strip()[1:-2]
                 if paramtype != 'derived':
                     continue
