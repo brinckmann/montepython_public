@@ -1,4 +1,5 @@
-e Gaussian priors for MultiNest sampling:
+Gaussian priors for MultiNest sampling:
+-------------------
 
 The standard method of putting a Gaussian prior on sampling parameters (i.e. adding a Gaussian likelihood) leads to an incorrect
 estimate of the evidence with MultiNest. This branch contains an implementation of a Gaussian prior in ``montepython/prior.py``
