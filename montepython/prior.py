@@ -8,6 +8,8 @@ from __future__ import print_function
 import random as rd
 from copy import deepcopy
 import io_mp
+from scipy.special import erfcinv
+import numpy as np
 
 class Prior(object):
     """
