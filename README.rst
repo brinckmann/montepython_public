@@ -1,3 +1,22 @@
+Gaussian priors for MultiNest sampling:
+-------------------
+
+The standard method of putting a Gaussian prior on sampling parameters (i.e. adding a Gaussian likelihood) leads to an incorrect
+estimate of the evidence with MultiNest. This branch contains an implementation of a Gaussian prior in ``montepython/prior.py``
+(adapted from https://github.com/JohannesBuchner/MultiNest/blob/master/src/priors.f90).
+
+The mean and standard deviation of the Gaussian are defined in the ``.param`` file. For example:
+
+    data.parameters['h']         	= [0.68,     0.6,   0.8,   0.2, 1, 'cosmo', 'gaussian', 0.68, 0.001]
+
+puts a Gaussian prior on h with mu=0.68 and sigma=0.001. If we use
+
+    data.parameters['omega_cdm'] 	= [0.1120, -1,-1, 0.0016,1,   'cosmo']
+
+we assume a flat prior in the given parameter range.
+
+Note: At the moment the Gaussian prior only works with the MultiNest sampler, but it should be straightforward to implement in PolyChord as well.
+
 ===========================================================
 Monte Python, a Monte Carlo Markov Chain code (with Class!)
 ===========================================================
