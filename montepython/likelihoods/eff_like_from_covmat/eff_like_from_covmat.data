@@ -1,0 +1,19 @@
+# Parameter list
+
+eff_like_from_covmat.data_directory       = data.path['data']
+cov_list = ['100*theta_s','100*theta_d'] # variables of interest in .covmat file
+eff_like_from_covmat.get_var_strings = ['cosmo.theta_s_100()', 'cosmo.theta_s_100()'] # name of the variables in CLASS
+mu_list = ['100*\theta_{s }','100*\theta_{d }'] # name of the means in h_info file
+
+#  covariance matrix
+
+covFull = 'eff_like_from_covmat.covmat' 
+cov_indices = [cov_list.index(c) for c in cov_list]
+eff_like_from_covmat.covmat = covFull[np.ix_(cov_indices, cov_indices)]
+
+# mean list
+
+muFull = 'eff_like_from_covmat.h_info'
+mu_indices = [cov_list.index(m) for m in mu_list]
+eff_like_from_covmat.mu  = muFull[np.ix_([3],mu_list)] # mean is located at row index 3 in h_info file
+
