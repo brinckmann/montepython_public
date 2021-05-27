@@ -16,7 +16,8 @@ class eff_like_from_covmat(Likelihood_prior):
         covmat = self.covmat
         mu = self.mu
         mean_vec = np.array(mu)
-        mean_vec_class = [cosmo.theta_s_100(),cosmo.get_current_derived_parameters(['100*theta_d'])['100*theta_d']]
+        mean_class = [cosmo.theta_s_100(),cosmo.get_current_derived_parameters(['100*theta_d'])['100*theta_d']]
+        mean_vec_class = np.array([eval(s) for s in mean_class])
         #mean_vec_class = np.array([1.04219541,0.32418698]) gives constant likelihood
         dif_vec = mean_vec - mean_vec_class
         dif_vec_T = dif_vec.T
