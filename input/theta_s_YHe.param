@@ -1,0 +1,44 @@
+#------Experiments to test (separated with commas)-----
+
+data.experiments=['eff_like_from_covmat']
+
+#------ Parameter list -------
+
+# Compute theta_d
+data.cosmo_arguments['compute damping scale'] = 'yes'
+
+# Parameters to vary
+
+data.parameters['100*theta_s']  = [ 1.04110,   None, None,    0.00030,    1, 'cosmo']
+data.parameters['YHe']             = [0.25, 0.1, 0.5, 0.05,     1,   'cosmo']
+data.parameters['100*theta_d']     = [0, None, None, 0, 1, 'derived']
+
+
+## Constant parameters:
+data.cosmo_arguments['omega_b'] = 2.257581e-02
+data.cosmo_arguments['omega_cdm'] = 1.191596e-01
+data.cosmo_arguments['ln10^{10}A_s'] = 3.057198e+00
+data.cosmo_arguments['n_s'] =  9.670203e-01
+data.cosmo_arguments['tau_reio'] = 6.039532e-02
+
+data.cosmo_arguments['Omega_Lambda'] = 6.861559e-01
+
+
+# Other cosmo parameters (fixed parameters, precision parameters, etc.)
+
+data.cosmo_arguments['sBBN file'] = data.path['cosmo']+'/bbn/sBBN.dat'
+data.cosmo_arguments['k_pivot'] = 0.05
+
+# The base model features two massless
+# and one massive neutrino with m=0.06eV.
+# The settings below ensures that Neff=3.046
+# and m/omega = 93.14 eV
+data.cosmo_arguments['N_ur'] = 2.0328
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['m_ncdm'] = 0.06
+data.cosmo_arguments['T_ncdm'] = 0.71611
+
+#------ Mcmc parameters ----
+
+data.N=10
+data.write_step=5

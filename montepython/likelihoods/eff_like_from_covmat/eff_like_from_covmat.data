@@ -1,0 +1,5 @@
+# Parameter list
+
+eff_like_from_covmat.covmat = [[ 2.680703e-07,-3.350036e-07],[-3.350036e-07,7.713178e-07]]
+eff_like_from_covmat.mu  = [1.042278e+00, 3.223170e-01]
+eff_like_from_covmat.get_var_strings = ['cosmo.theta_s_100()','cosmo.theta_d_100()']
