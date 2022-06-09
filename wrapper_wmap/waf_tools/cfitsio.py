@@ -14,7 +14,7 @@ def configure(ctx):
   ctx.env.th = False
 
 def install_cfitsio(ctx):
-  atl.installsmthg_pre(ctx,"ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio3280.tar.gz","cfitsio3280.tar.gz")
+  atl.installsmthg_pre(ctx,"https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio3280.tar.gz","cfitsio3280.tar.gz")
   CCMACRO = "\"%s %s\""%(ctx.env.CC[0],ctx.env.mopt)
   CCMACRO = "CC=%s CXX=%s "%(CCMACRO,CCMACRO)
   CPPMACRO = "CPP=\"%s -E\" CXXCPP=\"g++ -E\" "%(ctx.env.CC[0])
