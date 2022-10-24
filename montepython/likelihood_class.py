@@ -244,10 +244,9 @@ class Likelihood(object):
             Desired precision for some cosmological parameters
 
         """
-        array_flag = False
-        num_flag = True
-
         for key, value in dictitems(dictionary):
+            array_flag = False
+            num_flag = True
             try:
                 data.cosmo_arguments[key]
                 try:
