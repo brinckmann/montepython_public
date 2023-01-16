@@ -245,9 +245,10 @@ class Likelihood(object):
 
         """
         array_flag = False
-        num_flag = True
+#        num_flag = True
 
         for key, value in dictitems(dictionary):
+            num_flag = True
             try:
                 data.cosmo_arguments[key]
                 try:
