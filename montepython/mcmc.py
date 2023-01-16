@@ -635,7 +635,7 @@ def chain(cosmo, data, command_line):
                         jump_file.close()
                     # End of main part of superupdate routine
 
-                if not (k-1) % (command_line.update/3):
+                if not (k-1) % (command_line.update//3):
                     try:
                         # Read the covmat
                         sigma_eig, U, C = sampler.get_covariance_matrix(
@@ -750,7 +750,7 @@ def chain(cosmo, data, command_line):
                 # End of slave superupdate routine
 
                 # Start of slave update routine
-                if not (k-1) % (command_line.update/10):
+                if not (k-1) % (command_line.update//10):
                     try:
                         sigma_eig, U, C = sampler.get_covariance_matrix(
                             cosmo, data, command_line)
