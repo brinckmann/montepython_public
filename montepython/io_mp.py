@@ -218,15 +218,15 @@ def print_vector(out, N, loglkl, data):
     """
 
     for j in range(len(out)):
-        out[j].write('%.4g  %.6g\t' % (N, -loglkl))
+        out[j].write('%.4g  %.18g\t' % (N, -loglkl))
         for elem in data.get_mcmc_parameters(['varying']):
-            out[j].write('%.6e\t' %
+            out[j].write('%.18e\t' %
                          data.mcmc_parameters[elem]['last_accepted'])
         for elem in data.get_mcmc_parameters(['derived']):
-            out[j].write('%.6e\t' %
+            out[j].write('%.18e\t' %
                          data.mcmc_parameters[elem]['last_accepted'])
         for elem in data.get_mcmc_parameters(['derived_lkl']):
-            out[j].write('%.6e\t' %
+            out[j].write('%.18e\t' %
                          data.mcmc_parameters[elem]['last_accepted'])
         out[j].write('\n')
 
@@ -403,9 +403,9 @@ def write_bestfit_file(bestfit, names, path):
             #bfvalue = chain[a[0], 2+i]*info.scales[i, i]
             bf_value = bestfit[i]
             if bf_value > 0:
-                bestfit_file.write(' %.6e\t' % bf_value)
+                bestfit_file.write(' %.18e\t' % bf_value)
             else:
-                bestfit_file.write('%.6e\t' % bf_value)
+                bestfit_file.write('%.18e\t' % bf_value)
         bestfit_file.write('\n')
 
 
