@@ -784,6 +784,9 @@ def chain(cosmo, data, command_line):
         # multiplicity of the point and start the loop again
         if get_new_position(
                 data, sigma_eig, U, k, Cholesky, Rotation) is True:
+            # Prints the position even if it is not accepted
+            if command_line.print_cosmo:
+                io_mp.print_vector([data.cosmo_out], N, 0.0, data)
             newloglike = sampler.compute_lkl(cosmo, data)
         else:  # reject step
             rej += 1

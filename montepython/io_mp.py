@@ -284,11 +284,22 @@ def create_output_files(command_line, data):
         data.out_name = os.path.join(
             command_line.folder, outname_base)+str(suffix)+'.txt'
         print('Creating %s\n' % data.out_name)
+        if command_line.print_cosmo:
+            data.cosmo_out_name = os.path.join(
+                command_line.folder, outname_base)+str(suffix)+'.cosmo'
+            data.cosmo_out = open(data.cosmo_out_name, 'w')
+            print('Creating %s\n' % data.cosmo_out_name)
     else:
         data.out_name = os.path.join(
             command_line.folder, outname_base)+command_line.chain_number+'.txt'
         data.out = open(data.out_name, 'w')
         print('Creating %s\n' % data.out_name)
+        if command_line.print_cosmo:
+            data.cosmo_out_name = os.path.join(
+                command_line.folder, outname_base)+command_line.chain_number+'.cosmo'
+            data.cosmo_out = open(data.cosmo_out_name, 'w')
+            print('Creating %s\n' % data.cosmo_out_name)
+    
     # in case of a restart, copying the whole thing in the new file
     if command_line.restart is not None:
         # Construct filename of old chain from input.

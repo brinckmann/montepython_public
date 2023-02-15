@@ -566,6 +566,9 @@ def create_parser():
         <**>--display-each-chi2<**> : bool
             <++>Shows the effective chi2 from each likelihood and the total.<++>
             Useful e.g. if you run at the bestfit point with -f 0 (flag)<++>
+        <**>--print-cosmo<**> : bool
+            <++>Prints CLASS inputs before each loglkl evaluation.<++>
+            Inputs are printed in a separate file from the chains. (flag)<++>
         <**>--parallel-chains<**> : bool
             <++>Option for when running parallel without MPI<++>.
             Informs the code you are running parallel chains. This
@@ -809,6 +812,11 @@ def create_parser():
     # display option
     runparser.add_argument('--display-each-chi2', help=helpdict['display-each-chi2'],
                            dest='display_each_chi2', action='store_true')
+    
+    # print cosmo inputs before evaluating loglkl
+    runparser.add_argument('--print-cosmo', help=helpdict['print-cosmo'],
+                           dest='print_cosmo', action='store_true')
+
     # -- parallel chains without MPI (OPTIONAL)
     runparser.add_argument('--parallel-chains', help=helpdict['parallel-chains'],
                            action='store_true')
