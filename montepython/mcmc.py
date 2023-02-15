@@ -786,7 +786,7 @@ def chain(cosmo, data, command_line):
                 data, sigma_eig, U, k, Cholesky, Rotation) is True:
             # Prints the position even if it is not accepted
             if command_line.print_cosmo:
-                io_mp.print_vector([data.cosmo_out], N, 0.0, data)
+                io_mp.print_vector([data.cosmo_out], 1, 0.0, data)
             newloglike = sampler.compute_lkl(cosmo, data)
         else:  # reject step
             rej += 1
