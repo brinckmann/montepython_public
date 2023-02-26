@@ -1,18 +1,14 @@
 """
-.. module:: MultiNest
-    :synopsis: Interface the MultiNest program with Monte Python
+.. module:: SnowLine
+    :synopsis: Interface the snowline Laplace approximation and importance sampler with Monte Python
 
-This implementation relies heavily on the existing Python wrapper for
-MultiNest, called PyMultinest, written by Johannes Buchner, and available `at
-this address <https://github.com/JohannesBuchner/PyMultiNest>`_ .
+This implementation is similar to the MultiNest interface.
 
-The main routine, :func:`run`, truly interfaces the two codes. It takes for
-input the cosmological module, data and command line. It then defines
-internally two functions, :func:`prior() <MultiNest.prior>` and
-:func:`loglike` that will serve as input for the run function of PyMultiNest.
+Snowline is a Bayesian sampler based on the Laplace approximation 
+and importance sampling optimized with variational Bayes documented at.
+https://johannesbuchner.github.io/snowline/
 
-.. moduleauthor:: Jesus Torrado <torradocacho@lorentz.leidenuniv.nl>
-.. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
+.. moduleauthor:: Johannes Buchner <johannes.buchner.acad@gmx.com>
 """
 from __future__ import print_function
 #from pymultinest import run as nested_run
