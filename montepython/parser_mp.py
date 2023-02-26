@@ -747,7 +747,7 @@ def create_parser():
     # -- sampling method (OPTIONAL)
     runparser.add_argument('-m', '--method', help=helpdict['m'],
                            dest='method', default='MH',
-                           choices=['MH', 'NS', 'PC', 'CH', 'IS', 'Der', 'Fisher'])
+                           choices=['MH', 'NS', 'PC', 'UN', 'SL', 'CH', 'IS', 'Der', 'Fisher'])
     # -- update Metropolis Hastings (OPTIONAL)
     runparser.add_argument('--update', help=helpdict['update'], type=int,
                            dest='update', default=50)
@@ -863,7 +863,7 @@ def create_parser():
             from MultiNest import NS_prefix, NS_user_arguments
         NSparser = runparser.add_argument_group(
             title="MultiNest",
-            description="Run the MCMC chains using MultiNest"
+            description="Run the inference using MultiNest"
             )
         for arg in NS_user_arguments:
             NSparser.add_argument('--'+NS_prefix+arg,
@@ -875,6 +875,46 @@ def create_parser():
     except:
         warnings.warn('PyMultiNest detected but MultiNest likely not installed correctly. '
                       'You can safely ignore this if not running with option -m NS')
+    ###############
+    # UltraNest arguments (all OPTIONAL and ignored if not "-m=UN")
+    # The default values of -1 mean to take the PyMultiNest default values
+    try:
+        with suppress_stdout():
+            from UltraNest import NS_prefix, NS_user_arguments
+        NSparser = runparser.add_argument_group(
+            title="UltraNest",
+            description="Run the inference using UltraNest"
+            )
+        for arg in NS_user_arguments:
+            NSparser.add_argument('--'+NS_prefix+arg,
+                                  default=-1,
+                                  **NS_user_arguments[arg])
+    except ImportError:
+        # Not defined if not installed
+        pass
+    except:
+        warnings.warn('UltraNest detected but something likely not installed correctly. '
+                      'You can safely ignore this if not running with option -m UN')
+    ###############
+    # MultiNest arguments (all OPTIONAL and ignored if not "-m=NS")
+    # The default values of -1 mean to take the PyMultiNest default values
+    try:
+        with suppress_stdout():
+            from SnowLine import NS_prefix, NS_user_arguments
+        NSparser = runparser.add_argument_group(
+            title="SnowLine",
+            description="Run the inference using SnowLine"
+            )
+        for arg in NS_user_arguments:
+            NSparser.add_argument('--'+NS_prefix+arg,
+                                  default=-1,
+                                  **NS_user_arguments[arg])
+    except ImportError:
+        # Not defined if not installed
+        pass
+    except:
+        warnings.warn('Snowline detected but iminuit or pypmc likely not installed correctly. '
+                      'You can safely ignore this if not running with option -m SL')
 
     ###############
     # PolyChord arguments (all OPTIONAL and ignored if not "-m=PC")
