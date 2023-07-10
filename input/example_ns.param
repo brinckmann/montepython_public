@@ -39,3 +39,5 @@ data.N=10
 # Number of accepted steps before writing to file the chain. Larger means less
 # access to disc, but this is not so much time consuming.
 data.write_step=5
+
+#data.base_dir = test/logs/

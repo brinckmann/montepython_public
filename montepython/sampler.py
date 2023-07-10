@@ -48,6 +48,12 @@ def run(cosmo, data, command_line):
     elif command_line.method == 'NS':
         import MultiNest as mn
         mn.run(cosmo, data, command_line)
+    elif command_line.method == 'UN':
+        import UltraNest as un
+        un.run(cosmo, data, command_line)
+    elif command_line.method == 'SL':
+        import SnowLine as sl
+        sl.run(cosmo, data, command_line)
     elif command_line.method == 'PC':
         import PolyChord as pc
         pc.run(cosmo, data, command_line)
