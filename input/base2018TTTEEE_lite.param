@@ -33,16 +33,16 @@ data.over_sampling=[1, 10]
 
 # Cosmological parameters list
 
-data.parameters['omega_b']      = [  2.2377,   None, None,      0.015, 0.01, 'cosmo']
-data.parameters['omega_cdm']    = [ 0.12010,   None, None,     0.0013,    1, 'cosmo']
-data.parameters['100*theta_s']  = [ 1.04110,   None, None,    0.00030,    1, 'cosmo']
-data.parameters['ln10^{10}A_s'] = [  3.0447,   None, None,      0.015,    1, 'cosmo']
-data.parameters['n_s']          = [  0.9659,   None, None,     0.0042,    1, 'cosmo']
-data.parameters['tau_reio']     = [  0.0543,  0.004, None,      0.008,    1, 'cosmo']
+data.parameters['omega_b']      = [  2.2377,   2, 3,      0.015, 0.01, 'cosmo']
+data.parameters['omega_cdm']    = [ 0.12010,   0.05, 0.3,     0.0013,    1, 'cosmo']
+data.parameters['100*theta_s']  = [ 1.04110,   1.0, 1.2,    0.00030,    1, 'cosmo']
+data.parameters['ln10^{10}A_s'] = [  3.0447,   2.0, 5,      0.015,    1, 'cosmo']
+data.parameters['n_s']          = [  0.9659,   0.5, 1.5,     0.0042,    1, 'cosmo']
+data.parameters['tau_reio']     = [  0.0543,  0.004, 0.2,      0.008,    1, 'cosmo']
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
 
-data.parameters['A_planck']          = [ 1.00061,   0.9,   1.1,     0.0025,     1, 'nuisance']
+data.parameters['A_planck']          = [ 1.00061,   0.99,   1.01,     0.0025,     1, 'nuisance']
 
 # Derived parameters
 

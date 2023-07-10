@@ -860,7 +860,7 @@ def create_parser():
     # The default values of -1 mean to take the PyMultiNest default values
     try:
         with suppress_stdout():
-            from MultiNest import NS_prefix, NS_user_arguments
+            from UltraNest import NS_prefix, NS_user_arguments
         NSparser = runparser.add_argument_group(
             title="MultiNest",
             description="Run the MCMC chains using MultiNest"

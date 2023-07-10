@@ -16,16 +16,16 @@ data.experiments=['JLA']
 
 
 # Cosmological parameters list
-data.parameters['Omega_cdm'] = [0.2562,  None, None, 0.008,  1, 'cosmo']
+data.parameters['Omega_cdm'] = [0.2562,  1.8, 3, 0.008,  1, 'cosmo']
 
 # Nuisance
-data.parameters['alpha']   = [0.15 ,  None, None, 0.001, 1, 'nuisance']
-data.parameters['beta']    = [3.559,  None, None, 0.02,  1, 'nuisance']
-data.parameters['M']       = [-19.02, None, None, 0.004,  1, 'nuisance']
-data.parameters['Delta_M'] = [-0.10,  None, None, 0.004,  1, 'nuisance']
+data.parameters['alpha']   = [0.15 ,  0, 1, 0.001, 1, 'nuisance']
+data.parameters['beta']    = [3.559,  3, 5, 0.02,  1, 'nuisance']
+data.parameters['M']       = [-19.02, -21, -17, 0.004,  1, 'nuisance']
+data.parameters['Delta_M'] = [-0.10,  -1, 0, 0.004,  1, 'nuisance']
 
 # Derived parameter list
-data.parameters['Omega_m'] = [0,    -1, -1, 0,1,  'derived']
+data.parameters['Omega_m'] = [0,    -1, 1, 0,1,  'derived']
 
 
 data.cosmo_arguments['Omega_b'] = 0.05

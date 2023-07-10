@@ -1049,6 +1049,7 @@ class Likelihood_clik(Likelihood):
 
         # compute likelihood
         #print("lkl:",self.clik(tot))
+        print("evaluating at:", tot)
         lkl = self.clik(tot)[0]
 
         # add prior on nuisance parameters
