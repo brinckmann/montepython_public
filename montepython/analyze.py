@@ -565,7 +565,7 @@ def compute_posterior(information_instances):
                 # 1D posterior normalised to P_max=1 (first step)
                 #
                 # simply the histogram from the chains, with few bins
-                #
+                #                
                 info.hist, info.bin_edges = np.histogram(
                     # TB: without posterior_smoothing it can be nice to increase the
                     # number of bins here.
@@ -730,13 +730,13 @@ def compute_posterior(information_instances):
                         # 1D mean likelihood normalised to P_max=1 (first step)
                         #
                         # simply the histogram from the chains, weighted by mutiplicity*likelihood
-                        #
+                        #                  
                         lkl_mean, _ = np.histogram(
                             info.chain[:, info.native_index+2],
                             bins=info.bin_edges,
                             normed=False,
                             weights=np.exp(
-                                conf.min_minus_lkl-info.chain[:, 1])*info.chain[:, 0])
+                                conf.min_minus_lkl-info.chain[:, 1])*info.chain[:, 0])                        
                         lkl_mean /= lkl_mean.max()
 
                         # 1D mean likelihood normalised to P_max=1 (second step)
@@ -871,13 +871,13 @@ def compute_posterior(information_instances):
                         # 2D likelihood (first step)
                         #
                         # simply the histogram from the chains, with few bins only
-                        #
+                        #                        
                         info.n, info.xedges, info.yedges = np.histogram2d(
                             info.chain[:, info.native_index+2],
                             info.chain[:, info.native_second_index+2],
                             weights=info.chain[:, 0],
                             bins=(info.bins, info.bins),
-                            normed=False)
+                            normed=False)                        
                         # Correct for temperature:
                         info.n = info.n**conf.temperature
 
@@ -2245,9 +2245,25 @@ class Information(object):
                 self.number_parameters +=1
                 self.plotted_parameters.append(key)
                 self.centers = np.append(self.centers,0)
-        if hasattr(self, 'to_reorder'):
+        if hasattr(self, 'to_reorder'):            
             if(len(self.to_reorder)>0):
-                indices = [self.backup_names.index(name) for name in self.to_reorder]
+                # Analyze modification #
+
+                # Add protection for requested reorder names that only exist for the
+                # model considered. This is useful when comparing multiple models with
+                # non-matching parameters.
+                reorder_names = [] 
+                for name in self.to_reorder:
+                    if name in self.ref_names:
+                        reorder_names.append(name)
+
+                # Replace backup names on following line with ref names instead.
+                # This makes it so that derived and changed parameters can be reordered without issue.
+                # Before: indices = [self.backup_names.index(name) for name in self.to_reorder]                                
+                indices = [self.ref_names.index(name) for name in reorder_names]
+
+                # End analyze modification #
+
                 missing_indices = [x for x in np.arange(len(self.backup_names)) if x not in indices]
                 indices = np.concatenate([indices,missing_indices],dtype=int)
                 self.ref_names = [self.ref_names[i] for i in indices]
@@ -2262,11 +2278,34 @@ class Information(object):
                     spam[i][:,2:] = spam[i][:,indices+2]
                 # Play the same game independently for plotted_parameters
                 # since these might be a lot fewer
-                indices = [self.plotted_parameters.index(name) for name in self.to_reorder]
+               
+                # Analyze modification #
+
+                # Add protection for requested reorder names that only exist for the
+                # model considered. This is useful when comparing multiple models with
+                # non-matching parameters.
+                # Before: indices = [self.plotted_parameters.index(name) for name in self.to_reorder]                 
+                reorder_names = [] 
+                for name in self.to_reorder:
+                    if name in self.plotted_parameters: 
+                        reorder_names.append(name)
+                indices = [self.plotted_parameters.index(name) for name in reorder_names]
+
+                # End analyze modification #
+
                 if(len(indices)>0):
-                  missing_indices = [x for x in np.arange(len(self.plotted_parameters)) if x not in indices]
-                  indices = np.concatenate([indices,missing_indices])
-                  self.plotted_parameters = [self.plotted_parameters[i] for i in indices]
+                  
+                  # Analyze modification #
+
+                  # Added to the following line the dtype="int" argument to prevent the subsequent lines
+                  # from throwing an error when a float data is used as an index.
+                  # Before: missing_indices = np.array([x for x in np.arange(len(self.plotted_parameters)) if x not in indices])
+                  missing_indices = np.array([x for x in np.arange(len(self.plotted_parameters)) if x not in indices], dtype="int")                  
+                  
+                  # End analyze modification #
+                  
+                  indices = np.concatenate([indices,missing_indices])                  
+                  self.plotted_parameters = [self.plotted_parameters[i] for i in indices]                                  
 
     def define_ticks(self):
         """
