@@ -1,0 +1,10 @@
+Planck20_Lollipop_BB.data_directory = ''
+Planck20_Lollipop_BB.file           = ''
+
+Planck20_Lollipop_BB.Nsim = 400
+Planck20_Lollipop_BB.lmin = 2
+Planck20_Lollipop_BB.lmax = 150
+Planck20_Lollipop_BB.use_nuisance = ['A_planck']
+
+Planck20_Lollipop_BB.A_planck_prior_center = 1
+Planck20_Lollipop_BB.A_planck_prior_std = 0.0025
