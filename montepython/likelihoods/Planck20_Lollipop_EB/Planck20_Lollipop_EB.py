@@ -26,15 +26,16 @@ class Planck20_Lollipop_EB(Likelihood):
 
     def loglkl(self, cosmo, data):
 
-        print( {par:data.mcmc_parameters[par]['current'] for par in data.get_mcmc_parameters(['cosmo'])})
+#        print( {par:data.mcmc_parameters[par]['current'] for par in data.get_mcmc_parameters(['cosmo'])})
         cls = self.get_cl(cosmo)
         
         data_params = {par:data.mcmc_parameters[par]['current'] for par in data.get_mcmc_parameters(['nuisance'])}
-        print(data_params)
+#        print(data_params)
         
+        #compute log-likelihood
         lkl = self.lik.loglike(cls, **data_params)
-        print( lkl)
         
+        #Add priors
         lkl = self.add_nuisance_prior(lkl, data)
         
         return lkl

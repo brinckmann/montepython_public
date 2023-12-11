@@ -1,12 +1,10 @@
 Planck20_Hillipop_TTTEEE.data_directory = ''
 Planck20_Hillipop_TTTEEE.file           = ''
 
-Planck20_Hillipop_TTTEEE.use_nuisance = ['A_planck','cal100A','cal100B','cal143A','cal143B','cal217A','cal217B','Aradio','Adusty','AdustT','AdustP','Acib','Atsz','Aksz','Aksz','xi','beta_radio','beta_dusty','beta_cib','beta_dustT','beta_dustP']
+Planck20_Hillipop_TTTEEE.use_nuisance = ['A_planck','cal100A','cal100B','cal143A','cal143B','cal217A','cal217B','Aradio','Adusty','AdustT','AdustP','Acib','Atsz','Aksz','Aksz','xi','beta_radio','beta_dusty','beta_dustT','beta_dustP']
 
 Planck20_Hillipop_TTTEEE.A_planck_prior_center = 1
 Planck20_Hillipop_TTTEEE.A_planck_prior_std = 0.0025
-Planck20_Hillipop_TTTEEE.beta_cib_prior_center = 1.75
-Planck20_Hillipop_TTTEEE.beta_cib_prior_std = 0.06
 Planck20_Hillipop_TTTEEE.beta_dusty_prior_center = 1.75
 Planck20_Hillipop_TTTEEE.beta_dusty_prior_std = 0.06
 Planck20_Hillipop_TTTEEE.AdustT_prior_center = 1.0

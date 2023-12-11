@@ -33,10 +33,14 @@ class Planck20_Hillipop_TTTEEE(Likelihood):
         for par in ['pe100A','pe100B','pe143A','pe143B']: data_params[par] = 1.0
         data_params['pe217A'] = data_params['pe217B'] = 0.975
 
-        print(data_params)
+        #fix beta_cib to beta_dusty
+        if 'beta_cib' not in data_params:
+            data_params['beta_cib'] = data_params['beta_dusty']
         
+        #compute log-likelihood
         lkl = self.lik.loglike(dl, **data_params)
         
+        #Add priors
         lkl = self.add_nuisance_prior(lkl, data)
         
         return lkl
@@ -55,4 +59,5 @@ class Planck20_Hillipop_TTTEEE(Likelihood):
                 prior_center = getattr(self, "%s_prior_center" % nuisance)
                 prior_std = getattr(self, "%s_prior_std" % nuisance)
                 lkl += -0.5*((nuisance_value-prior_center)/prior_std)**2
+
         return lkl

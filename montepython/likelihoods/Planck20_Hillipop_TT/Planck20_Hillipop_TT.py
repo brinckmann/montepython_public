@@ -12,7 +12,7 @@ class Planck20_Hillipop_TT(Likelihood):
     def __init__(self, path, data, command_line):
         Likelihood.__init__(self, path, data, command_line)
 
-        #Create Cobaya likelihood        
+        #Create Cobaya likelihood
         self.lik = planck_2020_hillipop.TT({"packages_path": packages_path})
 
         self.need_cosmo_arguments(
@@ -22,7 +22,6 @@ class Planck20_Hillipop_TT(Likelihood):
 
     def loglkl(self, cosmo, data):
 
-        print( {par:data.mcmc_parameters[par]['current'] for par in data.get_mcmc_parameters(['cosmo'])})
         cls = self.get_cl(cosmo)
 
         fac = cls['ell'] * (cls['ell']+1) / (2*np.pi)
@@ -31,11 +30,16 @@ class Planck20_Hillipop_TT(Likelihood):
             dl[mode][cls['ell']] = fac*cls[mode.lower()]
 
         data_params = {par:data.mcmc_parameters[par]['current'] for par in data.get_mcmc_parameters(['nuisance'])}
-        print(data_params)
+
+        #fix beta_cib to beta_dusty
+        if 'beta_cib' not in data_params:
+            data_params['beta_cib'] = data_params['beta_dusty']
         
+        #compute log-likelihood
         lkl = self.lik.loglike(dl, **data_params)
-        print( lkl)
+#        print( lkl)
         
+        #Add priors
         lkl = self.add_nuisance_prior(lkl, data)
         
         return lkl
@@ -54,4 +58,5 @@ class Planck20_Hillipop_TT(Likelihood):
                 prior_center = getattr(self, "%s_prior_center" % nuisance)
                 prior_std = getattr(self, "%s_prior_std" % nuisance)
                 lkl += -0.5*((nuisance_value-prior_center)/prior_std)**2
+
         return lkl
