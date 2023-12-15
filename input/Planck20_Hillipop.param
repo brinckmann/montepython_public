@@ -1,0 +1,72 @@
+#------Experiments to test (separated with commas)-----
+# To see all the available ones, please look in the
+# montepython/likelihoods folder. Every folder there is a valid likelihood to
+# test.
+data.experiments=['Planck_lowl_TT','Planck20_Lollipop_EE','Planck20_Hillipop_TTTEEE']
+
+#------ Parameter list -------
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to -1 or None (if you want a boundary of -1, use -1.0)
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo', 'nuisance' or 'derived'
+
+
+# Cosmological parameters list
+data.parameters['omega_b'] 	= [2.249,  -1,-1, 0.016, 0.01,'cosmo']
+data.parameters['omega_cdm'] 	= [0.1120, -1,-1, 0.0016,1,   'cosmo']
+data.parameters['n_s']       	= [0.963,  -1,-1, 0.004, 1,   'cosmo']
+data.parameters['A_s']       	= [2.10,   -1,-1, 0.038, 1e-9,'cosmo']
+data.parameters['h']         	= [0.674,  -1,-1, 0.0065,1,   'cosmo']
+data.parameters['tau_reio']    	= [0.055,  -1,-1, 0.0044,1,   'cosmo']
+
+# Nuisance parameter list, same call, except the name does not have to be a class name
+# Note the nuisance parameters must follow *immediately after* the cosmo parameters,
+# MP expects cosmo, nuisance, derived
+
+# Nuisance parameters
+data.parameters['A_planck']    = [1,  0.9, 1.1, 0.0025, 1, 'nuisance']
+data.parameters['cal100A']     = [1,  0.9, 1.1, 0.01,   1, 'nuisance']
+data.parameters['cal100B']     = [1,  0.9, 1.1, 0.01,   1, 'nuisance']
+data.parameters['cal143A']     = [1,    1,   1,    0,   1, 'nuisance']
+data.parameters['cal143B']     = [1,  0.9, 1.1, 0.01,   1, 'nuisance']
+data.parameters['cal217A']     = [1,  0.9, 1.1, 0.01,   1, 'nuisance']
+data.parameters['cal217B']     = [1,  0.9, 1.1, 0.01,   1, 'nuisance']
+
+data.parameters['AdustT']      = [  1.0,  0.5,  1.5,    0.05,  1, 'nuisance']
+data.parameters['beta_dustT']  = [ 1.51,  1.2,  1.8,    0.01,  1, 'nuisance']
+data.parameters['AdustP']      = [  1.0,  0.5,  1.5,    0.05,  1, 'nuisance']
+data.parameters['beta_dustP']  = [ 1.58,  1.2,  1.8,    0.01,  1, 'nuisance']
+data.parameters['Aradio']      = [  60.,    0,  150,      1.,  1, 'nuisance']
+data.parameters['beta_radio']  = [ -0.8, None, None, 0.00001,  1, 'nuisance'] 
+data.parameters['Adusty']      = [   6.,    0,  100,      6.,  1, 'nuisance']
+data.parameters['beta_dusty']  = [ 1.75,  1.6,  1.9,    0.05,  1, 'nuisance']
+data.parameters['Acib']        = [  4.0,   0.,   20,      1.,  1, 'nuisance']
+data.parameters['Atsz']        = [  3.0,   0.,   50,      1.,  1, 'nuisance']
+data.parameters['Aksz']        = [  1.0,   0.,   50,      1.,  1, 'nuisance']
+data.parameters['xi']          = [  0.1,  -1.,   1.,     0.1,  1, 'nuisance']
+
+# Derived parameter list
+data.parameters['z_reio']       = [0,       -1, -1, 0,1,  'derived']
+data.parameters['Omega_Lambda'] = [0,       -1, -1, 0,1,  'derived']
+
+
+# CLASS parameters
+data.cosmo_arguments['k_pivot'] = 0.05
+data.cosmo_arguments['N_ur'] = 2.0328
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['m_ncdm'] = 0.06
+data.cosmo_arguments['T_ncdm'] = 0.71611
+data.cosmo_arguments['l_max_scalars'] = 2500
+data.cosmo_arguments['non_linear'] = 'halofit'
+
+
+#------ Mcmc parameters ----
+# Number of steps taken, by default (overwritten by the -N command)
+data.N=10
+# Number of accepted steps before writing to file the chain. Larger means less
+# access to disc, but this is not so much time consuming.
+data.write_step=5
+
+
+# Note: MP will only interpret comments if the line begins with # (you cannot add comments at the end of lines!)
