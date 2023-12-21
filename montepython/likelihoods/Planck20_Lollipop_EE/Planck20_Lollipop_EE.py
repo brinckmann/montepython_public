@@ -8,8 +8,6 @@ packages_path = os.environ.get("COBAYA_PACKAGES_PATH") or os.path.join(
     tempfile.gettempdir(), "Lollipop_packages"
 )
 
-hartlap_factor = False
-marginalised_over_covariance = True
 
 
 class Planck20_Lollipop_EE(Likelihood):
@@ -18,6 +16,9 @@ class Planck20_Lollipop_EE(Likelihood):
 
         #Create Cobaya likelihood
         self.lik = planck_2020_lollipop.lowlE({"packages_path": packages_path, "Nsim": self.Nsim, "lmin":self.lmin, "lmax":self.lmax})
+
+        self.lik.hartlap_factor = False
+        self.lik.marginalised_over_covariance = True
 
         self.need_cosmo_arguments(
             data, {'lensing': 'yes', 'output': 'pCl lCl', 'non_linear': 'halofit', 'l_max_scalars': self.lik.bins.lmax})
