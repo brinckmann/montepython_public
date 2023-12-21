@@ -16,7 +16,7 @@ class Planck20_Hillipop_TTTEEE(Likelihood):
         self.lik = planck_2020_hillipop.TTTEEE({"packages_path": packages_path})
 
         self.need_cosmo_arguments(
-            data, {'lensing': 'yes', 'output': 'tCl pCl lCl', 'non_linear': 'halofit', 'l_max_scalars': self.lik.lmax})
+            data, {'lensing': 'yes', 'output': 'tCl pCl lCl', 'l_max_scalars': self.lik.lmax})
 
         print( "Init Hillipop TTTEEE done !")
 
