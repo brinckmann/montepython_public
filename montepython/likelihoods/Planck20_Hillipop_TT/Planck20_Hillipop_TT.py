@@ -16,7 +16,7 @@ class Planck20_Hillipop_TT(Likelihood):
         self.lik = planck_2020_hillipop.TT({"packages_path": packages_path})
 
         self.need_cosmo_arguments(
-            data, {'lensing': 'yes', 'output': 'tCl pCl lCl', 'non_linear': 'halofit', 'l_max_scalars': self.lik.lmax})
+            data, {'lensing': 'yes', 'output': 'tCl pCl lCl', 'l_max_scalars': self.lik.lmax})
 
         print( "Init Hillipop TT done !")
 
