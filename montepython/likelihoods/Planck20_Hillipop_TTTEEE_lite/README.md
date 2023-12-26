@@ -11,18 +11,24 @@ generalization to polarization of the algorithm presented in Tristram
 et al. 2005) before being compared to the model, which includes CMB
 and foreground residuals. They cover the multipoles from ~=30 to ~=2500.
 
+Reference: 
+[Tristram et al., A&A, 2023](https://arxiv.org/abs/2309.10034)
+
 The code is available here:
-https://github.com/planck-npipe/hillipop
+[https://github.com/planck-npipe/hillipop](https://github.com/planck-npipe/hillipop)
 
 This is a wrapper for MontePython.
 
 You need to install the code before:
-> git clone https://github.com/planck-npipe/hillipop
-> cd hillipop
-> pip install .
+```
+git clone https://github.com/planck-npipe/hillipop
+cd hillipop
+pip install .
+```
 
 Then get the data, untar and set the variable $COBAYA_PACKAGES_PATH to the local directory:
-> wget https://portal.nersc.gov/cfs/cmb/planck2020/likelihoods/planck_2020_hillipop_TTTEEE_lite_v4.2.tar.gz
-> tar -zxvf planck_2020_hillipop_TTTEEE_lite_v4.2.tar.gz --directory /path/to/data
-> export COBAYA_PACKAGES_PATH=/path/to/data
-
+```
+wget https://portal.nersc.gov/cfs/cmb/planck2020/likelihoods/planck_2020_hillipop_TTTEEE_lite_v4.2.tar.gz
+tar -zxvf planck_2020_hillipop_TTTEEE_lite_v4.2.tar.gz --directory /path/to/data
+export COBAYA_PACKAGES_PATH=/path/to/data
+```
