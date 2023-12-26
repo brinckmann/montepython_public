@@ -1,4 +1,4 @@
-# Lollipop is a low-l polarized likelihood for Planck PR4 data (EE and BB spectra)
+# Lollipop is a low-l polarized likelihood for Planck PR4 data (EE, BB, and EB spectra)
 
 Lollipop is a Planck low-l polarization likelihood based on
 cross-power-spectra for which the bias is zero when the noise is
