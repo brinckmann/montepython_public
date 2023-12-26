@@ -1,5 +1,4 @@
-# Lollipop is a low-l polarized likelihood for Planck PR4 data (EE and
-BB spectra)
+# Lollipop is a low-l polarized likelihood for Planck PR4 data (EE and BB spectra)
 
 Lollipop is a Planck low-l polarization likelihood based on
 cross-power-spectra for which the bias is zero when the noise is
@@ -10,12 +9,12 @@ the Planck PR4 data. Cross-spectra are computed on the CMB maps from
 Commander component separation applied on each detset-split Planck
 frequency maps.
 
-Reference: 
-[Tristram et al., A&A, 2021](https://arxiv.org/abs/2010.01139)
+References:\
+[Tristram et al., A&A, 2021](https://arxiv.org/abs/2010.01139)\
 [Tristram et al., A&A, 2022](https://arxiv.org/abs/2112.07961)
 
-The code is available here:
-[https://github.com/planck-npipe/lollipop](https://github.com/planck-npipe/lollipop)
+The code is available here:\
+[https://github.com/planck-npipe/lollipop](https://github.com/planck-npipe/lollipop)\
 This is a wrapper for MontePython.
 
 You need to install the code before:
