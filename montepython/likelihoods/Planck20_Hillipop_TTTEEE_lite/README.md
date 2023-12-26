@@ -11,7 +11,7 @@ This is a wrapper for MontePython.
 
 You need to install the code before:
 ```
-git clone https://github.com/planck-npipe/hillipop
+git clone https://github.com/planck-npipe/hillipop --branch v4.3
 cd hillipop
 pip install .
 ```
