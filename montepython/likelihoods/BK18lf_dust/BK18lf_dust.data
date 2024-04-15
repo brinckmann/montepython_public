@@ -1,0 +1,17 @@
+# this file describes the BK18lf_dust data folder
+BK18lf_dust.do_nonlinear = True
+BK18lf_dust.data_directory = os.path.join(data.path['data'], 'BK18lf_dust')
+BK18lf_dust.settings = 'BK18lf_dust.dataset'
+BK18lf_dust.use_nuisance = ['BBdust', 'BBsync','BBalphadust', 'BBbetadust', 'BBTdust', 'BBalphasync', 'BBbetasync', 'BBdustsynccorr', 'EEtoBB_dust', 'EEtoBB_sync', 'Delta_dust', 'Delta_sync', 'gamma_corr', 'gamma_95', 'gamma_150', 'gamma_220'] 
+# All possible maps:          BK18_K95_B BK18_150_B BK18_220_B BK18_B95e_B W023e_B P030e_B W033e_B P044e_B P143e_B P217e_B P353e_B
+# In BK14, we had all maps but only used B's by default. In BK18, this is split into two different likelihoods, one with B's and one that includes E's.
+# Thus, map_names_used will usually just be all of the maps, so it is a bit superfluous.
+BK18lf_dust.map_names_used = 'BK18_K95_B BK18_150_B BK18_220_B BK18_B95e_B W023e_B P030e_B W033e_B P044e_B P143e_B P217e_B P353e_B'
+
+# Unlike the BK14 implementation, the prior on the nuisance parameters is now part of the likelihood.
+# To create figure 4 of BKXIII, set BK18lf_dust.use_beta_dust_prior = False
+BK18lf_dust.use_beta_dust_prior = True
+BK18lf_dust.mean_BBbetadust = 1.59
+BK18lf_dust.sigma_BBbetadust = 0.11
+BK18lf_dust.mean_BBbetasync = -3.1
+BK18lf_dust.sigma_BBbetasync = 0.3

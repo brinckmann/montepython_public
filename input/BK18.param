@@ -1,0 +1,79 @@
+#------Experiments to test (separated with commas)-----
+# To see all the available ones, please look in the
+# montepython/likelihoods folder. Every folder there is a valid likelihood to
+# test.
+data.experiments=['BK18lf_dust']
+data.over_sampling=[1, 20]
+
+#------ Parameter list -------
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to -1 or None (if you want a boundary of -1, use -1.0)
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo', 'nuisance' or 'derived'
+
+
+# Cosmological parameters list
+#data.parameters['omega_b'] 	= [2.249,  -1,-1, 0.016, 0.01,'cosmo']
+#data.parameters['omega_cdm'] 	= [0.1120, -1,-1, 0.0016,1,   'cosmo']
+#data.parameters['n_s']       	= [0.963,  -1,-1, 0.004, 1,   'cosmo']
+#data.parameters['A_s']       	= [2.42,   -1,-1, 0.038, 1e-9,'cosmo']
+data.parameters['r']         	= [0.06,  0.0,0.5, 0.04,1,   'cosmo']
+#data.parameters['tau_reio']    	= [0.085,  -1,-1, 0.0044,1,   'cosmo']
+
+# Nuisance parameter list, same call, except the name does not have to be a class name
+# dust power at ell=80, nu=353 GHz [uK^2]
+data.parameters['BBdust']       = [3., 0., 15., 0.1, 1.0, 'nuisance']
+# sync power at ell=80, nu=23 GHz [uK^2]
+data.parameters['BBsync']       = [1., 0., 50., 1., 1., 'nuisance']
+# dust spatial power spectrum power law index
+data.parameters['BBalphadust']       = [-0.42, -1.0, 0., 0.01, 1, 'nuisance']
+# dust SED power law index
+#data.parameters['BBbetadust']       = [1.59, 1.04, 2.14, 0.02, 1, 'nuisance']
+# dust SED power law index for figure 4 of BKXIII. Remember also to disable log-prior in BK18lf_dust.data!
+data.parameters['BBbetadust']       = [1.59, 0.8, 2.4, 0.02, 1, 'nuisance']
+# dust blackbody temperature [K] -- fixed / very insensitive to this
+data.parameters['BBTdust']       = [19.6, 19.6, 19.6, 0.0, 1, 'nuisance']
+# sync spatial power specturm power law index
+data.parameters['BBalphasync']       = [-0.6, -1.0 ,0., 0.01, 1, 'nuisance']
+# sync SED power law index
+data.parameters['BBbetasync']       = [-3.1, -4.5,-2.0, 0.02, 1, 'nuisance']
+# correlation between dust and sync
+data.parameters['BBdustsynccorr']       = [0.2, -1.0, 1.0, 0.01, 1, 'nuisance']
+# EE/BB ratios -- fixed / only used if E-modes are turned on
+data.parameters['EEtoBB_dust']       = [2.0, 2.0,2.0, 0, 1, 'nuisance']
+data.parameters['EEtoBB_sync']       = [2.0, 2.0,2.0, 0, 1, 'nuisance']
+# Dust correlation ratio between 217 and 353 GHz, ell=80
+data.parameters['Delta_dust']        = [1.0, 1.0, 1.0, 0, 1, 'nuisance']
+# Sync correlation ratio between 23 and 33 GHz, ell=80
+data.parameters['Delta_sync']        = [1.0, 1.0, 1.0, 0, 1, 'nuisance']
+# Band center errors, fixed to zero
+data.parameters['gamma_corr']        = [0.0, 0.0, 0.0, 0, 1, 'nuisance']
+data.parameters['gamma_95']          = [0.0, 0.0, 0.0, 0, 1, 'nuisance']
+data.parameters['gamma_150']         = [0.0, 0.0, 0.0, 0, 1, 'nuisance']
+data.parameters['gamma_220']         = [0.0, 0.0, 0.0, 0, 1, 'nuisance']
+
+# Derived parameter list
+#data.parameters['z_reio']       = [0,       -1, -1, 0,1,  'derived']
+#data.parameters['Omega_Lambda'] = [0,       -1, -1, 0,1,  'derived']
+
+# Fix cosmological parameter values to match Fig. 4 of BKXIII
+data.cosmo_arguments['n_t'] = 0.
+data.cosmo_arguments['alpha_t'] = 0.
+data.cosmo_arguments['n_s'] = 0.9619123
+data.cosmo_arguments['omega_b'] = 0.0220323
+data.cosmo_arguments['omega_cdm'] = 0.1203761
+data.cosmo_arguments['tau_reio'] = 0.0924518
+data.cosmo_arguments['YHe'] = 0.2476949
+data.cosmo_arguments['H0'] = 67.00439
+#data.cosmo_arguments['100*theta_s'] = 1.0411
+data.cosmo_arguments['ln10^{10}A_s'] = 3.1
+
+
+
+#------ Mcmc parameters ----
+# Number of steps taken, by default (overwritten by the -N command)
+data.N=10
+# Number of accepted steps before writing to file the chain. Larger means less
+# access to disc, but this is not so much time consuming.
+data.write_step=50
