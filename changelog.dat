@@ -1,3 +1,5 @@
+v3.6.1, + Added euclid_spectroscopic and euclid_photometric_alm likelihoods from 2303.09451, 2405.06047 (S. Casas, M. Doerenkamp, J. Lesgourgues, S. Pamuk, L. Rathmann, Sabarish V., N. Schoeneberg)
+---------------------------------------------------------------------
 v3.6.0  + Added Lyman-alpha alpha-beta-gamma-delta likelihood from 2206.08188 (D. C. Hooper, N. Schoeneberg, R. Murgia)
         + Added eBOSS DR16 BAO-only likelihoods (S. Alvi, T. Brinckmann)
         + Added eBOSS DR16 BAO-plus likelihoods (V. Poulin, T. Brinckmann)

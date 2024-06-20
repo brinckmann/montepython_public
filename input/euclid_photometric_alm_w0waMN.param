@@ -1,0 +1,76 @@
+#------Experiments to test (separated with commas)-----
+data.experiments=['euclid_photometric_alm']
+data.over_sampling=[1, 5]
+
+#------ Parameter list -------
+
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to -1 or None (if you want a boundary of -1, use -1.0)
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo', 'nuisance' or 'derived'
+
+# Cosmological parameter list
+data.parameters['w0_fld']       = [        -1.0,  -1.5, -0.5, 4.5008e-02, 1, 'cosmo']
+data.parameters['wa_fld']       = [         0.0,  -1.0,  1.0, 1.7585e-01, 1, 'cosmo']
+data.parameters['Omega_b']      = [   0.0491989, 0.005,    1, 3.7182e-03, 1, 'cosmo']
+data.parameters['h']            = [      0.6737,   0.1,  1.5, 6.4087e-02, 1, 'cosmo']
+data.parameters['n_s']          = [     0.96605,   0.8,  1.2, 2.8724e-02, 1, 'cosmo']
+data.parameters['sigma8']       = [        0.81,   0.7,  0.9, 6.1314e-03, 1, 'cosmo']
+data.parameters['N_ur']         = [          0.,    0.,    5, 4.5053e-01, 1, 'cosmo']
+
+# m_nu and Omega_m with the usual syntax
+# relying on default neutrino treatement in CLASS
+data.parameters['{\sum}m_nu']    = [        0.06,  5e-3,    1, 6.8814e-02, 1, 'cosmo']
+data.parameters['Omega_m'] = [0.3145714273, 0.005,    1, 4.7174e-03, 1, 'cosmo']
+
+# m_nu and Omega_m with a syntax
+# forcing CLASS to mimick the neutrino treatement 'share_delta_neff = T' of CAMB
+# This was used in [2303.09451, 2405.06047] to enforce highly consistent results
+# across the CAMB/CLASS Fisher pipelines
+# If you use these, you may want to change the two parameter names also in the
+# header of the input covmat file
+#data.parameters['m_nu_camb']    = [        0.06,  5e-3,    1, 6.8814e-02, 1, 'cosmo']
+#data.parameters['Omega_m_camb'] = [0.3145714273, 0.005,    1, 4.7174e-03, 1, 'cosmo']
+
+# Nuisance parameter list
+# Fiducial values are given by b=sqrt(1+\bar{z}) in each bin
+data.parameters['bias_1']          = [1.0998, None, None, 9.4236e-03, 1, 'nuisance']
+data.parameters['bias_2']          = [1.2202, None, None, 1.0991e-02, 1, 'nuisance']
+data.parameters['bias_3']          = [1.2724, None, None, 1.1854e-02, 1, 'nuisance']
+data.parameters['bias_4']          = [1.3166, None, None, 1.2860e-02, 1, 'nuisance']
+data.parameters['bias_5']          = [1.3581, None, None, 1.3780e-02, 1, 'nuisance']
+data.parameters['bias_6']          = [1.3998, None, None, 1.4554e-02, 1, 'nuisance']
+data.parameters['bias_7']          = [1.4446, None, None, 1.5379e-02, 1, 'nuisance']
+data.parameters['bias_8']          = [1.4965, None, None, 1.6372e-02, 1, 'nuisance']
+data.parameters['bias_9']          = [1.5652, None, None, 1.7461e-02, 1, 'nuisance']
+data.parameters['bias_10']         = [1.7430, None, None, 2.0074e-02, 1, 'nuisance']
+
+# limits of 3sigma (according to IST-opt), except a_IA!>0
+data.parameters['aIA']             = [ 1.72,    0,  12.1, 1.9507e-01, 1, 'nuisance']
+data.parameters['etaIA']           = [-0.41,  -7.,  6.17, 1.1762e-01, 1, 'nuisance']
+data.parameters['betaIA']          = [ 2.17, 0.63,   5.0,         0., 1, 'nuisance']
+
+# Fixed parameter list
+data.cosmo_arguments['Omega_Lambda'] = 0.0
+data.cosmo_arguments['YHe'] = 0.2454006
+data.cosmo_arguments['T_cmb'] = 2.7255
+data.cosmo_arguments['reio_parametrization'] = 'reio_none'
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['deg_ncdm'] = 3
+
+# Non-Linear matter power spectrum settings
+data.cosmo_arguments['P_k_max_1/Mpc'] = 50.
+data.cosmo_arguments['k_per_decade_for_pk'] = 50.
+data.cosmo_arguments['k_per_decade_for_bao'] = 50.
+# Warning: to reproduce the results of the Euclid neutrino sensitivity paper,
+# you should set to hmcode2020
+#data.cosmo_arguments['non linear']= 'hmcode2020'
+data.cosmo_arguments['non linear']= 'halofit'
+data.cosmo_arguments['nonlinear_min_k_max']= 80.
+
+# Number of steps taken, by default (overwritten by the -N command)
+data.N=10
+# Number of accepted steps before writing to file the chain. Larger means less
+# access to disc, but this is not so much time consuming.
+data.write_step=5

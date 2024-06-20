@@ -1,0 +1,90 @@
+#####################################################
+# Euclid spectroscopic galaxy clustering likelihood #
+#####################################################
+
+# - Based on an earlier euclid_pk likelihood initiated by A. Audren and J. Lesgourgues 1210.7183
+# - Improved by Sprenger et al. 1801.08331
+# - Further developped to match IST:Fisher recipe by
+#   S. Casas, M. Doerenkamp, J. Lesgourgues, L. Rathmann, Sabarish V., N. Schoeneberg
+# - validated against CosmicFish and IST:Fisher in 2303.09451
+# - further improved and generalised to massive neutrinos by S. Pamuk, S. Casas
+
+# data directory and fiducial file
+euclid_spectroscopic.data_directory = data.path['data']
+euclid_spectroscopic.fiducial_file  = "euclid_spectroscopic_fiducial"
+
+# choose treatment of sigma_v and sigma_p ('linear', 'predicted', 'marginalized')
+# 'linear' means sigma_v=sigma_p=0
+# 'predicted' means sigma_v and sigma_p are fixed to values inferred from P(k),
+#             like in validation paper in 2303.09451
+# 'marginalized' means sigma_v, sigma_p in each z bin is an independent nuisance parameter,
+#             like in neutrino forecast paper (2024)
+# optimistic case assumes the second
+euclid_spectroscopic.NonLinError = 'predicted'
+
+# nuisance parameters: shot noise and log(bias*sigma8) in each bin
+euclid_spectroscopic.use_nuisance = ['P_shot0','P_shot1','P_shot2','P_shot3','lnbsigma8_0', 'lnbsigma8_1', 'lnbsigma8_2', 'lnbsigma8_3']
+
+# redshift range (hard coded, do not change!)
+# range of redshifts covered by survey (bin centers!).
+euclid_spectroscopic.zmin = 0.90
+euclid_spectroscopic.zmax  = 1.80
+
+# sky coverage
+euclid_spectroscopic.fsky  = 0.3636
+
+# spectroscopic redshift error
+euclid_spectroscopic.spectroscopic_error = 0.002
+euclid_spectroscopic.spectroscopic_error_z_dependent = False
+
+# tracer of galaxies ('matter' or 'clustering')
+# 'matter' means the bias is defined with respect to P(k) of total matter
+# 'clustering' means bias is defined with respect to P(k) of baryons + CDM
+euclid_spectroscopic.use_tracer = 'clustering'
+
+# use scale-independent growth factor f (like in IST:Fisher)
+# or scale-dependent one (like in f(R) or neutrino papers)
+euclid_spectroscopic.scale_dependent_growth_factor_f = True
+
+############################################################
+
+# grid of mu and k values
+
+# number of mu bins (~9 achieves sufficient precision)
+euclid_spectroscopic.mu_size = 9
+
+# number of equally spaced bins in log(k) space
+euclid_spectroscopic.k_size = 500
+# kmin is the lower integration boundary for k (in h/Mpc)
+euclid_spectroscopic.kmin = 0.001
+# kmax is the higher integration boundary for k (in h/Mpc)
+# optimistic case:
+euclid_spectroscopic.kmax = 0.30
+
+############################################################
+
+# parameters defining the k-grid used for getting P_L(k,z) from CLASS
+# and computing P_nl(k,z) with a dewiggling algorithmn. This is
+# particularly relevant for the use of the SavGol filter, that will
+# change dramatically if savgol_width is changed.
+
+# dlnk is the logarithmic step in k-space used internally, so
+#   k[i] = k_min * (1+dlnk)**i
+euclid_spectroscopic.dewiggling_k_min_invMpc = 3.527944863890297711e-05
+euclid_spectroscopic.dewiggling_k_max_invMpc = 5.079459381103515625e+01
+euclid_spectroscopic.dewiggling_dlnk = 0.013541649917909737
+
+# smoothing algorithm ('savgol_filter' is currently the only implemented method)
+euclid_spectroscopic.dewiggle = 'savgol_filter'
+
+# savgol_width is the logarithmic ratio of scales used as a
+# smoothing length by the savgol_filter:
+#   savgol_width = ln(k2/k1)=ln(k2)-ln(k1).
+# Then internally the code computes:
+#   n_savgol = int(savgol_width/log(1+dlnk))
+# and it calls
+#   savgol_filter( array, n_savgol, savgol_order)
+euclid_spectroscopic.savgol_width = 1.358528901113328
+euclid_spectroscopic.savgol_order = 3
+
+##############################################################

@@ -566,12 +566,14 @@ def compute_posterior(information_instances):
                 #
                 # simply the histogram from the chains, with few bins
                 #
+                # normed flag deprecated since numpy v1.6, eventually not supported
+                # if using a very old version replace density with normed flag
                 info.hist, info.bin_edges = np.histogram(
                     # TB: without posterior_smoothing it can be nice to increase the
                     # number of bins here.
                     info.chain[:, info.native_index+2], bins=info.bins,
                     #info.chain[:, info.native_index+2], bins=2*info.bins,
-                    weights=info.chain[:, 0], normed=False, density=False)
+                    weights=info.chain[:, 0], density=False)
                 info.hist = info.hist/info.hist.max()
                 # Correct for temperature
                 info.hist = info.hist**conf.temperature
@@ -731,10 +733,12 @@ def compute_posterior(information_instances):
                         #
                         # simply the histogram from the chains, weighted by mutiplicity*likelihood
                         #
+                        # normed flag deprecated since numpy v1.6, eventually not supported
+                        # if using a very old version replace density with normed flag
                         lkl_mean, _ = np.histogram(
                             info.chain[:, info.native_index+2],
                             bins=info.bin_edges,
-                            normed=False,
+                            density=False,
                             weights=np.exp(
                                 conf.min_minus_lkl-info.chain[:, 1])*info.chain[:, 0])
                         lkl_mean /= lkl_mean.max()
@@ -872,12 +876,14 @@ def compute_posterior(information_instances):
                         #
                         # simply the histogram from the chains, with few bins only
                         #
+                        # normed flag deprecated since numpy v1.6, eventually not supported
+                        # if using a very old version replace density with normed flag
                         info.n, info.xedges, info.yedges = np.histogram2d(
                             info.chain[:, info.native_index+2],
                             info.chain[:, info.native_second_index+2],
                             weights=info.chain[:, 0],
                             bins=(info.bins, info.bins),
-                            normed=False)
+                            density=False)
                         # Correct for temperature:
                         info.n = info.n**conf.temperature
 

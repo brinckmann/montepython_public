@@ -15,7 +15,11 @@ for the bibtex entries).
 
 Recent changelog
 ----------------
-v3.6.0, May 17, 2023
+v3.6.1, June 20, 2024
+
+* Added euclid_spectroscopic and euclid_photometric_alm likelihoods from 2303.09451, 2405.06047 (S. Casas, M. Doerenkamp, J. Lesgourgues, S. Pamuk, L. Rathmann, Sabarish V., N. Schoeneberg)
+
+v3.6.0, June 1, 2023
 
 * Added Lyman-alpha alpha-beta-gamma-delta likelihood from 2206.08188 (D. C. Hooper, N. Schoeneberg, R. Murgia)
 

@@ -1,0 +1,77 @@
+#------Experiments to test (separated with commas)-----
+data.experiments=['euclid_spectroscopic']
+data.over_sampling=[1, 5]
+
+#------ Parameter list -------
+
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to -1 or None (if you want a boundary of -1, use -1.0)
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo', 'nuisance' or 'derived'
+
+
+# Cosmological parameter list
+data.parameters['w0_fld']          = [-1.0,        -1.5, -0.5, 0.005817415339578542,  1, 'cosmo']
+data.parameters['wa_fld']          = [ 0.0,        -1.0,  1.0, 0.020028821980815653,   1, 'cosmo']
+data.parameters['Omega_b']         = [0.0491989,     0.005, 1, 0.00019184888405203053,   1, 'cosmo']
+data.parameters['h']               = [0.6737,        0.1, 1.5, 0.0001999475026853076,   1, 'cosmo']
+data.parameters['n_s']             = [0.96605,       0.8, 1.2, 0.0011193255795687615,   1, 'cosmo']
+data.parameters['sigma8']          = [0.81,          0.7, 0.9, 0.0008478733384547647,   1, 'cosmo']
+data.parameters['N_ur']            = [0.,             0.,   5, 0.017672788763494048,   1, 'cosmo']
+
+# m_nu and Omega_m with the usual syntax
+# relying on default neutrino treatement in CLASS
+data.parameters['{\sum}m_nu']       = [0.06,          5.e-3, 1, 0.004383136476792409,   1, 'cosmo']
+data.parameters['Omega_m']    = [0.3145714273,  0.005, 1, 0.0007825674866256795,   1, 'cosmo']
+
+# m_nu and Omega_m with a syntax
+# forcing CLASS to mimick the neutrino treatement 'share_delta_neff = T' of CAMB
+# This was used in [2303.09451, 2405.06047] to enforce highly consistent results
+# across the CAMB/CLASS Fisher pipelines
+# If you use these, you may want to change the two parameter names also in the
+# header of the input covmat file
+#data.parameters['m_nu_camb']       = [0.06,          5.e-3, 1, 0.004383136476792409,   1, 'cosmo']
+#data.parameters['Omega_m_camb']    = [0.3145714273,  0.005, 1, 0.0007825674866256795,   1, 'cosmo']
+
+# Nuisance parameter list
+# Fiducial values are given by b=sqrt(1+\bar{z}) in each bin
+# Arbitrary limits for faster convergence in MCMC
+data.parameters['P_shot0']  = [0,  None, None, 1.058483559536866,   1, 'nuisance']
+data.parameters['P_shot1']  = [0,  None, None, 1.1271137562786895,   1, 'nuisance']
+data.parameters['P_shot2']  = [0,  None, None, 1.156364145541881,   1, 'nuisance']
+data.parameters['P_shot3']  = [0,  None, None, 1.2406943374046109,   1, 'nuisance']
+data.parameters['lnbsigma8_0']  = [-0.324980,  None, None, 0.0009016106927228733,    1,  'nuisance']
+data.parameters['lnbsigma8_1']  = [-0.315229,  None, None, 0.0008930783478655937,    1,  'nuisance']
+data.parameters['lnbsigma8_2']  = [-0.310679,  None, None, 0.0008818347026015016,    1,  'nuisance']
+data.parameters['lnbsigma8_3']  = [-0.319153,  None, None, 0.0008856205545237601,    1,  'nuisance']
+data.parameters['sigma_v0']  = [5.255388, 0, None, 0.7, 1,  'nuisance']
+data.parameters['sigma_v1']  = [4.828736, 0, None, 0.7, 1,  'nuisance']
+data.parameters['sigma_v2']  = [4.460583, 0, None, 0.7, 1,  'nuisance']
+data.parameters['sigma_v3']  = [4.067725, 0, None, 0.7, 1,  'nuisance']
+data.parameters['sigma_p0']  = [5.255388, 0, None, 0.2, 1,  'nuisance']
+data.parameters['sigma_p1']  = [4.828736, 0, None, 0.2, 1,  'nuisance']
+data.parameters['sigma_p2']  = [4.460583, 0, None, 0.2, 1,  'nuisance']
+data.parameters['sigma_p3']  = [4.067725, 0, None, 0.2, 1,  'nuisance']
+
+# Fixed parameter list
+data.cosmo_arguments['Omega_Lambda'] = 0
+data.cosmo_arguments['YHe'] = 0.2454006
+data.cosmo_arguments['T_cmb'] = 2.7255
+data.cosmo_arguments['reio_parametrization'] = 'reio_none'
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['deg_ncdm'] = 3
+
+# Linear matter power spectrum settings
+data.cosmo_arguments['P_k_max_1/Mpc'] = 50.
+data.cosmo_arguments['k_per_decade_for_pk'] = 50.
+data.cosmo_arguments['k_per_decade_for_bao'] = 50.
+data.cosmo_arguments['non linear'] = 'none'
+
+
+#------ Mcmc parameters ----
+# Number of steps taken, by default (overwritten by the -N command)
+data.N=10
+# Number of accepted steps before writing to file the chain. Larger means less
+# access to disc, but this is not so much time consuming.
+data.write_step=5

@@ -1126,6 +1126,38 @@ class Data(object):
             elif elem == 'w0wa':
                 self.cosmo_arguments['wa_fld'] = self.cosmo_arguments[elem] - self.cosmo_arguments['w0_fld']
                 del self.cosmo_arguments[elem]
+            elif elem == 'N_eff_camb':
+                #self.cosmo_arguments['N_ur'] = 2./3.*self.cosmo_arguments[elem]
+                N_eff_fid = 3.044
+                self.cosmo_arguments['N_ur'] = self.cosmo_arguments[elem] - N_eff_fid/3.
+                del self.cosmo_arguments[elem]
+            elif elem == 'm_nu_camb':
+                N_eff_fid = 3.044
+                #print ("Treat m_nu_camb")
+                #if "N_eff_camb" in self.cosmo_arguments:
+                #    gfact = self.cosmo_arguments['N_eff_camb']/3.
+                #elif "N_ur" in self.cosmo_arguments:
+                #    gfact = self.cosmo_arguments['N_ur']/2.
+                #else:
+                #    raise ValueError("Could not find Omega_ncdm because N_eff_camb and N_ur both undefined")
+                gfact =N_eff_fid/3.
+
+                self.cosmo_arguments['T_ncdm'] = pow(4./11.,1./3.)*pow(gfact,1./4.)
+                if "h" in self.cosmo_arguments:
+                    h = float(self.cosmo_arguments['h'])
+                elif "H0" in self.cosmo_arguments:
+                    h = float(self.cosmo_arguments['H0'])/100
+
+                m_nu_camb = float(self.cosmo_arguments['m_nu_camb'])
+                self.cosmo_arguments['Omega_ncdm'] = m_nu_camb*gfact**0.75/94.07/h**2
+                del self.cosmo_arguments[elem]
+            elif elem == 'Omega_m_camb':
+                #print("Treat Omega_m_camb")
+                if "Omega_ncdm" in self.cosmo_arguments:
+                    self.cosmo_arguments['Omega_cdm'] = self.cosmo_arguments['Omega_m_camb'] - self.cosmo_arguments['Omega_b'] - self.cosmo_arguments['Omega_ncdm']
+                else:
+                    raise ValueError("Could not find Omega_cdm because Omega_ncdm not computed yet")
+                del self.cosmo_arguments[elem]
             elif elem == 'S_8':
                 # infer sigma8 from S_8, h, omega_b, omega_cdm, and omega_nu (omega_nu = sum(m_nu) / 93.14)
                 # Originally by B. Stoelzner for one massive neutrino

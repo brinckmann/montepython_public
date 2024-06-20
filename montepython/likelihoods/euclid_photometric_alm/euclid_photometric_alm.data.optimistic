@@ -1,0 +1,110 @@
+##########################################################################################
+# Euclid lensing, photometric galaxy clustering and cross-correlation (3x2pt) likelihood #
+##########################################################################################
+
+# - Based on an earlier euclid_lensing likelihood initiated by A. Audren and J. Lesgourgues 1210.7183
+# - Improved by Sprenger et al. 1801.08331
+# - Further developped to include clustering, cross-correlation and match IST:Fisher recipe by
+#   S. Casas, M. Doerenkamp, J. Lesgourgues, L. Rathmann, Sabarish V., N. Schoeneberg
+# - validated against CosmicFish and IST:Fisher in 2303.09451
+# - further improved and generalised to massive neutrinos by S. Pamuk, S. Casas
+
+# data directory and fiducial file
+euclid_photometric_alm.data_directory = data.path['data']
+euclid_photometric_alm.fiducial_file  = "euclid_photometric_alm_fiducial"
+
+# evaluated probes ('WL','GCph','WL_GCph_XC')
+# 'WL' means weak lensing
+# 'GCph' means photometric galaxy clustering
+# 'WL_GCph_XC' means both, including their correlation (3x2pt)
+euclid_photometric_alm.probe = ['WL_GCph_XC']
+# euclid_photometric_alm.probe = ['WL']
+# euclid_photometric_alm.probe = ['GCph']
+
+# evaluated l-values
+euclid_photometric_alm.lmin = 10
+# lmax values must statisfy the condition lmax_WL >= lmax_GC, lmax_XC
+# optimistic case:
+euclid_photometric_alm.lmax_WL=5000
+euclid_photometric_alm.lmax_GC=3000
+euclid_photometric_alm.lmax_XC=3000
+
+# number of discrete l values
+euclid_photometric_alm.lbin = 100
+
+# redshift range covered by survey
+euclid_photometric_alm.zmin = 0.001
+euclid_photometric_alm.zmax  = 2.5
+
+# number of redhsift bins
+euclid_photometric_alm.nbin  = 10
+
+# number of discrete z values in integrations
+euclid_photometric_alm.nzmax = 200
+
+# sky coverage
+euclid_photometric_alm.fsky  = 0.3636
+
+# number of galaxies per square arcminutes
+euclid_photometric_alm.gal_per_sqarcmn = 30.0
+
+# noise in lensing reconstruction
+euclid_photometric_alm.rms_shear = 0.30
+
+# non-linear correction (none, Halofit, HMcode, etc.) are to be set in
+#  the input list of CLASS parameters in the .param file
+
+# range of k-values in h/Mpc
+euclid_photometric_alm.k_min_h_by_Mpc = 0.001
+euclid_photometric_alm.k_max_h_by_Mpc = 50.0
+
+# use scale-independent growth factor f (like in IST:Fisher)
+# or scale-dependent one (like in f(R) or neutrino papers)
+euclid_photometric_alm.scale_dependent_f = True
+
+# bias model ('binned_constant', 'binned' or 'interpld')
+# 'binned_constant' : bias is constant within each full photometric bin
+# 'binned'          : b(z) is a step-like function with a sharp jump at each z-bin edge
+# 'interpld'        : b(z) is a smooth function going through required values at each bin center
+euclid_photometric_alm.bias_model = 'binned'
+
+# tracer of galaxies for the GCph ('matter' or 'clustering')
+# 'matter' means the bias is defined with respect to P(k) of total matter
+# 'clustering' means bias is defined with respect to P(k) of baryons + CDM
+euclid_photometric_alm.use_tracer = 'clustering'
+
+# baryonic feedback
+euclid_photometric_alm.use_BCemu = False
+euclid_photometric_alm.verbose_BCemu = True
+euclid_photometric_alm.BCemu_k_bins = 200
+euclid_photometric_alm.BCemu_z_bins = 20
+
+# theoretical error, implemented initially in Sprenger et al. 1801.08331
+# and improved by S. Pamuk and S. Casas
+euclid_photometric_alm.theoretical_error = False
+# if true, re-bin with less points in l-space to speed up marginalization over theoretical errors
+euclid_photometric_alm.minimize_Terr_binned = True
+
+#################################################
+
+# these technical parameters allow to do some non-trivial tests, like fitting a
+# fiducial having baryonic feedback with a model not having it, or
+# vice-versa; or fitting a fiducial generated with P_m and fitting it
+# with P_cb, or vice-versa. As long as 'fit_different_data' is set to
+# False, this will not be used and you don't need to worry about it.
+euclid_photometric_alm.fit_different_data = False
+euclid_photometric_alm.data_use_BCemu= True
+euclid_photometric_alm.data_use_tracer= "clustering"
+
+#################################################
+
+# debugging
+
+# to time the code
+euclid_photometric_alm.printtimes = False
+
+# to save the computed P(k) in a binary file 'euclid_photometric_alm_Pkz.npz'
+euclid_photometric_alm.save_PS = False
+
+# to save the computed Cl's in a binary file 'euclid_photometric_alm_Cls.npz'
+euclid_photometric_alm.save_Cell = False
