@@ -11,6 +11,8 @@ from data import Data
 import sys
 import os
 from io_mp import dictitems,dictvalues,dictkeys
+import glob
+import warnings
 
 def initialise(custom_command=''):
     """
@@ -157,39 +159,17 @@ def recover_cosmological_module(data):
     # If the cosmological code is CLASS, do the following to import all
     # relevant quantities
     if data.cosmological_module_name == 'CLASS':
+        sys.path[1:1] = glob.glob(os.path.join(data.path['cosmo'], 'python*', '**', ''), recursive=True)
         try:
-            classy_path = ''
-            for elem in os.listdir(os.path.join(
-                    data.path['cosmo'], "python", "build")):
-                if elem.find("lib.") != -1 and elem.find(sys.version)!=-1:
-                    classy_path = os.path.join(
-                        data.path['cosmo'], "python", "build", elem)
-                if len(classy_path)==1:
-                    classy_path = classy_path[0]
-                else:
-                    stringcheck = "%i.%i"%(sys.version_info.major,sys.version_info.minor)
-                    for path in classy_path:
-                        if stringcheck in path:
-                            classy_path = path
-                            break
-        except OSError:
-            raise io_mp.ConfigurationError(
-                "You probably did not compile the python wrapper of CLASS. " +
-                "Please go to /path/to/class/python/ and do\n" +
-                "..]$ python setup.py build")
-
-        # Inserting the previously found path into the list of folders to
-        # search for python modules.
-        sys.path.insert(1, classy_path)
-        try:
-            from classy import Class
+            import classy
+            if data.path['cosmo'] not in classy.__file__:
+                warnings.warn(f"The classy wrapper {classy.__file__} was not imported from " + 
+                                            f"the correct folder {data.path['cosmo']}. You might have " +
+                                            "forgotten to compile the wrapper.")
         except ImportError:
-            raise io_mp.MissingLibraryError(
-                "You must have compiled the classy.pyx file. Please go to " +
-                "/path/to/class/python and run the command\n " +
-                "python setup.py build")
+            raise io_mp.MissingLibraryError("You need to have the python wrapper of CLASS installed.")
 
-        cosmo = Class()
+        cosmo = classy.Class()
     else:
         raise io_mp.ConfigurationError(
             "Unrecognised cosmological module. " +
