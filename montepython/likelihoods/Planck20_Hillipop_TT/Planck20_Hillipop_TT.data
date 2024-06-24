@@ -1,0 +1,13 @@
+Planck20_Hillipop_TT.data_directory = ''
+Planck20_Hillipop_TT.file           = ''
+
+Planck20_Hillipop_TT.use_nuisance = ['A_planck','cal100A','cal100B','cal143A','cal143B','cal217A','cal217B','Aradio','Adusty','AdustT','Acib','Atsz','Aksz','Aksz','xi','beta_dustT','beta_radio','beta_dusty']
+
+Planck20_Hillipop_TT.A_planck_prior_center = 1
+Planck20_Hillipop_TT.A_planck_prior_std = 0.0025
+Planck20_Hillipop_TT.AdustT_prior_center = 1.0
+Planck20_Hillipop_TT.AdustT_prior_std = 0.1
+Planck20_Hillipop_TT.beta_dustT_prior_center = 1.51
+Planck20_Hillipop_TT.beta_dustT_prior_std = 0.01
+Planck20_Hillipop_TT.beta_dusty_prior_center = 1.75
+Planck20_Hillipop_TT.beta_dusty_prior_std = 0.06

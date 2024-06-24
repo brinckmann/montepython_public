@@ -1,0 +1,102 @@
+#------Experiments to test (separated with commas)-----
+# To see all the available ones, please look in the
+# montepython/likelihoods folder. Every folder there is a valid likelihood to
+# test.
+data.experiments=['Planck20_Hillipop_TTTEEE','Planck_lowl_TT','Planck20_Lollipop_EE']
+
+
+#------ Settings for the over-sampling.
+# The first element will always be set to 1, for it is the sampling of the
+# cosmological parameters. The other numbers describe the over sampling of the
+# nuisance parameter space. This array must have the same dimension as the
+# number of blocks in your run (so, 1 for cosmological parameters, and then 1
+# for each experiment with varying nuisance parameters).
+# Note that when using Planck likelihoods, you definitely want to use [1, 4],
+# to oversample as much as possible the 14 nuisance parameters.
+# Remember to order manually the experiments from slowest to fastest (putting
+# Planck as the first set of experiments should be a safe bet, except if you
+# also have LSS experiments).
+# If you have experiments without nuisance, you do not need to specify an
+# additional entry in the over_sampling list (notice for instance that, out of
+# the three Planck likelihoods used, only Planck_highl requires nuisance
+# parameters, therefore over_sampling has a length of two (cosmology, plus one
+# set of nuisance).
+data.over_sampling=[1, 4]
+
+
+
+#------ Parameter list -------
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to -1 or None (if you want a boundary of -1, use -1.0)
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo', 'nuisance' or 'derived'
+
+
+# Cosmological parameters list
+data.parameters['omega_b'] 	= [0.0223, 0.017, 0.027, 0.0002,  1, 'cosmo']
+data.parameters['omega_cdm'] 	= [0.1188,  0.09,  0.15,  0.002,  1, 'cosmo']
+data.parameters['n_s']       	= [ 0.968,   0.9,   1.1,  0.005,  1, 'cosmo']
+data.parameters['ln10^{10}A_s'] = [ 3.040,   2.7,   3.4,   0.02,  1, 'cosmo']
+data.parameters['tau_reio']    	= [ 0.058,  0.01,  0.17,  0.008,  1, 'cosmo']
+data.parameters['100*theta_s']  = [1.0410,  1.03,  1.05, 0.0003,  1, 'cosmo']
+
+# Nuisance parameter list, same call, except the name does not have to be a class name
+# Note the nuisance parameters must follow *immediately after* the cosmo parameters,
+# MP expects cosmo, nuisance, derived
+
+# Nuisance parameters
+data.parameters['A_planck']    = [  1.0,  0.9,  1.1, 0.0025, 1, 'nuisance']
+data.parameters['cal100A']     = [  1.0,  0.9,  1.1,  0.005, 1, 'nuisance']
+data.parameters['cal100B']     = [  1.0,  0.9,  1.1,  0.005, 1, 'nuisance']
+data.parameters['cal143A']     = [  1.0,    1,    1,      0, 1, 'nuisance']
+data.parameters['cal143B']     = [  1.0,  0.9,  1.1,  0.005, 1, 'nuisance']
+data.parameters['cal217A']     = [  1.0,  0.9,  1.1,  0.005, 1, 'nuisance']
+data.parameters['cal217B']     = [  1.0,  0.9,  1.1,  0.005, 1, 'nuisance']
+
+data.parameters['AdustT']      = [  1.0,  0.5,  1.5,   0.03, 1, 'nuisance']
+data.parameters['beta_dustT']  = [ 1.51,  1.2,  1.8,   0.01, 1, 'nuisance']
+data.parameters['AdustP']      = [  1.0,  0.5,  1.5,   0.03, 1, 'nuisance']
+data.parameters['beta_dustP']  = [ 1.58,  1.2,  1.8,   0.02, 1, 'nuisance']
+data.parameters['Aradio']      = [ 63.3,    0,  150,    4.7, 1, 'nuisance']
+data.parameters['beta_radio']  = [ -0.8, -0.8, -0.8,      0, 1, 'nuisance']
+data.parameters['Adusty']      = [ 6.07,    0,  100,    0.6, 1, 'nuisance']
+data.parameters['beta_dusty']  = [ 1.75,  1.6,  1.9,   0.06, 1, 'nuisance']
+data.parameters['Acib']        = [  1.0,   0.,   20,    0.3, 1, 'nuisance']
+data.parameters['Atsz']        = [  5.9,   0.,   50,    1.6, 1, 'nuisance']
+data.parameters['Aksz']        = [  1.0,   0.,   50,    2.5, 1, 'nuisance']
+data.parameters['xi']          = [  0.4,  -1.,   1.,    0.3, 1, 'nuisance']
+
+# Derived parameter list
+data.parameters['z_reio']       = [0, None, None, 0,    1, 'derived']
+data.parameters['Omega_Lambda'] = [0, None, None, 0,    1, 'derived']
+data.parameters['A_s']          = [0, None, None, 0, 1e-9, 'derived']
+data.parameters['H0']           = [0, None, None, 0,    1, 'derived']
+#data.parameters['sigma8']       = [0, None, None, 0,    1, 'derived']
+
+
+# CLASS parameters
+data.cosmo_arguments['sBBN file'] = data.path['cosmo']+'/external/bbn/sBBN_2017.dat'
+data.cosmo_arguments['k_pivot'] = 0.05
+data.cosmo_arguments['N_ur'] = 2.0328
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['m_ncdm'] = 0.06
+data.cosmo_arguments['T_ncdm'] = 0.71611
+data.cosmo_arguments['l_max_scalars'] = 2500
+data.cosmo_arguments['non_linear'] = 'halofit'
+
+# These two are required to get sigma8 as a derived parameter
+# (class must compute the P(k) until sufficient k)
+#data.cosmo_arguments['output'] = 'mPk'
+#data.cosmo_arguments['P_k_max_h/Mpc'] = 1.
+
+
+#------ Mcmc parameters ----
+# Number of steps taken, by default (overwritten by the -N command)
+data.N=10
+# Number of accepted steps before writing to file the chain. Larger means less
+# access to disc, but this is not so much time consuming.
+data.write_step=5
+
+
+# Note: MP will only interpret comments if the line begins with # (you cannot add comments at the end of lines!)

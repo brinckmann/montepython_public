@@ -1,0 +1,17 @@
+Planck20_Lollipop_EB.data_directory = ''
+Planck20_Lollipop_EB.file           = ''
+
+Planck20_Lollipop_EB.Nsim = 400
+Planck20_Lollipop_EB.lmin = 2
+Planck20_Lollipop_EB.lmax = 30
+Planck20_Lollipop_EB.use_nuisance = ['A_planck']
+
+# note concerning the Planck likelihoods:
+# This likelihood has a nuisance parameter A_planck that should be declared in
+# your input parameter file.
+# Usually this likelihood is used in combination with the highl likelihood,
+# which imposes a gaussian prior on this nuisance parameter.
+# If you run this likelihood alone (without any highl one), you need to
+# impose the gaussian prior here. In that case, uncomment the two lines:
+#Planck20_Lollipop_EB.A_planck_prior_center = 1
+#Planck20_Lollipop_EB.A_planck_prior_std = 0.0025
